@@ -1,0 +1,50 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /api/v1
+
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shop_db?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  application:
+    name: shop-api
+  profiles:
+    active: cloudinary
+#    active: cloudinary, firebase
+
+
+cloudinary:
+  cloud-name: shopapi
+  api-key: 523685645676577
+  api-secret: BjXq-AeDaWkNlw6iVUuHiNamMoA
+
+firebase:
+  bucket-name: your-firebase-bucket-name
+
+springdoc:
+  api-docs:
+    path: /open-api
+  swagger-ui:
+    path: /docs
+    operationsSorter: method
+  show-actuator: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: openapi, swagger-ui
+
+security:
+  jwt:
+    secret-key: secret-key
+    expiration-time: 86400

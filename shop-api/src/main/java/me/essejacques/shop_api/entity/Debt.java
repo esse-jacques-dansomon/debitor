@@ -1,0 +1,34 @@
+package me.essejacques.shop_api.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDate;
+import java.util.Set;
+
+@Entity
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@SuperBuilder
+@AllArgsConstructor
+public class Debt {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private LocalDate date;
+    private Double amount;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    // Une dette est associée à un client
+    private Client client;
+
+    @OneToMany(mappedBy = "debt", cascade = CascadeType.ALL)
+    // Une dette peut avoir plusieurs paiements
+    private Set<Payment> payments;
+}
