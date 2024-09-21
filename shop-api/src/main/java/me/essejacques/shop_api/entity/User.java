@@ -7,9 +7,13 @@ import lombok.experimental.SuperBuilder;
 import me.essejacques.shop_api.enums.RoleType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Date;
-
+import java.util.List;
 
 @Table(name = "users")
 @Entity
@@ -19,7 +23,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @SuperBuilder
 @AllArgsConstructor
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
@@ -30,8 +34,6 @@ public class User {
 
     @Getter
     @Column(nullable = false)
-    @ToString.Exclude
-    @JsonIgnore
     protected String password;
 
     protected String photo;
@@ -49,5 +51,38 @@ public class User {
     protected RoleType role;
 
     @OneToOne(mappedBy = "user")
+    @ToString.Exclude
+    @JsonIgnore
     private Client client;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

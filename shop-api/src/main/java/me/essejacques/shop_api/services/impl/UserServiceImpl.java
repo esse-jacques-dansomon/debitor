@@ -1,11 +1,13 @@
 package me.essejacques.shop_api.services.impl;
 
+import me.essejacques.shop_api.config.SecurityConfiguration;
 import me.essejacques.shop_api.dtos.UserDetailsProjection;
 import me.essejacques.shop_api.entity.User;
 import lombok.RequiredArgsConstructor;
 import me.essejacques.shop_api.repositories.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,6 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements me.essejacques.shop_api.services.interfaces.UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * @param user
@@ -21,6 +24,7 @@ public class UserServiceImpl implements me.essejacques.shop_api.services.interfa
      */
     @Override
     public User createUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return this.userRepository.save(user);
     }
 

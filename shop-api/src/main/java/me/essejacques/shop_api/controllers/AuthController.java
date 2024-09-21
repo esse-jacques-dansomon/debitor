@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import me.essejacques.shop_api.config.JwtService;
 import me.essejacques.shop_api.dtos.UserDetailsProjection;
 import me.essejacques.shop_api.entity.User;
@@ -15,6 +16,7 @@ import me.essejacques.shop_api.services.interfaces.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import java.util.Optional;
 @RequestMapping("/auth")
 @RestController
 @Tag(name = "Authenticator", description = "Authenticator API")
+@Slf4j
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;
@@ -32,20 +35,31 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto) {
-        String token = authService.login(loginDto);
-        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
-        jwtAuthResponse.setAccessToken(token);
-
         Optional<UserDetailsProjection> user = userService.findUserProjectedByEmail(loginDto.getUsernameOrEmail());
-        user.ifPresent(jwtAuthResponse::setUser);
-        return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
+        if (user.isPresent()) {
+            log.info("User {} logged in", loginDto.getUsernameOrEmail());
+            String token = authService.login(loginDto);
+            log.info("Token generated: {}", token);
+
+            JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+            jwtAuthResponse.setAccessToken(token);
+            user.ifPresent(jwtAuthResponse::setUser);
+            return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
+        }else {
+            log.info("User {} not found", loginDto.getUsernameOrEmail());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
     }
 
     @GetMapping("/user")
-    public Optional<User> userDetails(HttpServletRequest request, HttpServletResponse response) {
-        String token = jwtService.getTokenFormRequest(request);
-        String username = jwtService.getUsername(token);
-        return userService.findUserByEmail(username);
+    public ResponseEntity<User> userDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        User currentUser = (User) authentication.getPrincipal();
+
+        return ResponseEntity.ok(currentUser);
+//        return userService.findUserByEmail(username);
     }
 
 
