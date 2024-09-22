@@ -1,8 +1,10 @@
 package me.essejacques.shop_api.services.impl;
 
 
+import me.essejacques.shop_api.dtos.DebtDetailsProjection;
 import me.essejacques.shop_api.entity.Client;
 import me.essejacques.shop_api.entity.Debt;
+import me.essejacques.shop_api.entity.User;
 import me.essejacques.shop_api.repositories.DebtRepository;
 import me.essejacques.shop_api.services.interfaces.DebtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +69,11 @@ public class DebtServiceImpl implements DebtService {
                         .sum() >= debt.getAmount())
                 .map(Debt::getId)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DebtDetailsProjection> getDebtsByShoper(User user) {
+        return debtRepository.findAllProjectedByShopper(user);
     }
 }
 

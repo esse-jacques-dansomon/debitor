@@ -1,10 +1,13 @@
 package me.essejacques.shop_api.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import me.essejacques.shop_api.dtos.DebtDetailsProjection;
 import me.essejacques.shop_api.entity.Client;
 import me.essejacques.shop_api.entity.Debt;
+import me.essejacques.shop_api.entity.User;
 import me.essejacques.shop_api.services.interfaces.ClientService;
 import me.essejacques.shop_api.services.interfaces.DebtService;
+import me.essejacques.shop_api.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +21,13 @@ public class DebtController {
 
     private final DebtService debtService;
     private final ClientService clientService;
+    private final UserService userService;
 
     @Autowired
-    public DebtController(DebtService debtService, ClientService clientService) {
+    public DebtController(DebtService debtService, ClientService clientService, UserService userService) {
         this.debtService = debtService;
         this.clientService = clientService;
+        this.userService = userService;
     }
 
     @PostMapping
@@ -54,6 +59,17 @@ public class DebtController {
         Optional<Client> clientOpt = clientService.getClientById(clientId);
         if (clientOpt.isPresent()) {
             List<Debt> debts = debtService.getDebtsByClient(clientOpt.get());
+            return ResponseEntity.ok(debts);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<DebtDetailsProjection>> getDebtsByShoper(@PathVariable Long userId) {
+        Optional<User> userOptional = userService.findUserById(userId);
+        if (userOptional.isPresent()) {
+            List<DebtDetailsProjection> debts = debtService.getDebtsByShoper(userOptional.get());
             return ResponseEntity.ok(debts);
         } else {
             return ResponseEntity.notFound().build();

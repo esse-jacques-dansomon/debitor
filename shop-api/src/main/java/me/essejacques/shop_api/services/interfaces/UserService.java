@@ -15,7 +15,7 @@ public interface UserService {
 
     void deleteUser(Long userId);
 
-    User findUserById(Long id);
+    Optional<User> findUserById(Long id);
 
     Optional<User> findUserByEmail(String email);
 
@@ -24,4 +24,5 @@ public interface UserService {
     Optional<User> findUserByEmailAndPassword(String email, String password);
 
     Page<UserDetailsProjection> getAll(PageRequest pageRequest);
+
 }

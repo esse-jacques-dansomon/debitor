@@ -57,8 +57,8 @@ public class UserServiceImpl implements me.essejacques.shop_api.services.interfa
      * @return
      */
     @Override
-    public User findUserById(Long id) {
-        return this.userRepository.findById(id).orElseThrow();
+    public Optional<User> findUserById(Long id) {
+        return Optional.of(this.userRepository.findById(id).orElseThrow());
     }
 
     /**

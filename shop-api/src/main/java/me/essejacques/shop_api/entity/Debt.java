@@ -13,6 +13,7 @@ import java.util.Set;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Debt {
 
     @Id
@@ -26,12 +27,12 @@ public class Debt {
     // Une dette est associée à un client
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private User client;
+    private Client client;
 
     // Une dette est associée à un butiquier
     @ManyToOne
     @JoinColumn(name = "butiquier_id")
-    private User butiquier;
+    private User shopper;
 
     // Une dette peut avoir plusieurs paiements
     @OneToMany(mappedBy = "debt", cascade = CascadeType.ALL)

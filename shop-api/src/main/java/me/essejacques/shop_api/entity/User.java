@@ -47,5 +47,6 @@ public class User {
     protected RoleType role;
 
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private Client client;
 }
