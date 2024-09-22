@@ -4,8 +4,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import me.essejacques.shop_api.entity.Client;
 import me.essejacques.shop_api.services.interfaces.ClientService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +20,10 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    @PostMapping
-    public ResponseEntity<Client> createClient(@RequestBody Client client) {
-        Client created = clientService.createClient(client);
-        return ResponseEntity.ok(created);
+    @PostMapping(consumes = "multipart/form-data")
+    public ResponseEntity<Client> createClient(@RequestBody Client client,  @RequestPart("file") MultipartFile file) {
+        Client created = clientService.createClient(client, file);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")

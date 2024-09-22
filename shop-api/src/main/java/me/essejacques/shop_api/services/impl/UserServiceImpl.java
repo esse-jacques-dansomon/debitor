@@ -4,9 +4,11 @@ import me.essejacques.shop_api.dtos.UserDetailsProjection;
 import me.essejacques.shop_api.entity.User;
 import lombok.RequiredArgsConstructor;
 import me.essejacques.shop_api.repositories.UserRepository;
+import me.essejacques.shop_api.services.interfaces.PhotoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -14,14 +16,23 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements me.essejacques.shop_api.services.interfaces.UserService {
     private final UserRepository userRepository;
+    private final PhotoService photoService;
 
     /**
      * @param user
+     * @param file
      * @return User
      */
     @Override
-    public User createUser(User user) {
-        return this.userRepository.save(user);
+    public User createUser(User user, MultipartFile file) {
+      try {
+          String fileName = photoService.uploadPhoto(file);
+          user.setPhoto(fileName);
+          return this.userRepository.save(user);
+      }catch (Exception e){
+          e.printStackTrace();
+      }
+      return null;
     }
 
     /**

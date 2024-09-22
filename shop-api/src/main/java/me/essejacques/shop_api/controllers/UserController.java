@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -29,9 +30,12 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
+    @PostMapping(consumes = "multipart/form-data")
+    public ResponseEntity<User> createUser(
+            @RequestPart("user") User user,
+            @RequestPart("file") MultipartFile file
+                                           ) {
+        User createdUser = userService.createUser(user, file);
         return ResponseEntity.ok(createdUser);
     }
 

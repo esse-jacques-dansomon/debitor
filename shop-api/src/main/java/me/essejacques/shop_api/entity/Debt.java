@@ -12,7 +12,6 @@ import java.util.Set;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@SuperBuilder
 @AllArgsConstructor
 public class Debt {
 
@@ -22,13 +21,15 @@ public class Debt {
 
     private LocalDate date;
     private Double amount;
+    private Boolean paid = Boolean.FALSE;
+
 
     @ManyToOne
     @JoinColumn(name = "client_id")
     // Une dette est associée à un client
     private Client client;
 
-    @OneToMany(mappedBy = "debt", cascade = CascadeType.ALL)
     // Une dette peut avoir plusieurs paiements
+    @OneToMany(mappedBy = "debt", cascade = CascadeType.ALL)
     private Set<Payment> payments;
 }

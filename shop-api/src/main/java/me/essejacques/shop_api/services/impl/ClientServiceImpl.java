@@ -5,6 +5,7 @@ import me.essejacques.shop_api.repositories.ClientRepository;
 import me.essejacques.shop_api.services.interfaces.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client createClient(Client client) {
+    public Client createClient(Client client, MultipartFile file) {
+
         return clientRepository.save(client);
     }
 

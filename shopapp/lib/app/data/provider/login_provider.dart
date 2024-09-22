@@ -19,7 +19,6 @@ class LoginProvider  {
         body: LoginModel(usernameOrEmail: email, password: password).toJson(),
       );
       if (response.statusCode == 200) {
-        print("response.body ${response.body}");
          final authResponse = AuthResponse.fromJson(
              jsonDecode(response.body) as Map<String, dynamic>);
          return authResponse;
