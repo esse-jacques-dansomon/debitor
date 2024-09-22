@@ -9,9 +9,11 @@ import 'app/modules/auth/bindings/auth_binding.dart';
 import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized( );
+
+
   await DependencyInjection.init();
 
-  WidgetsFlutterBinding.ensureInitialized( );
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -21,7 +23,7 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       title: "Application",
       theme: ThemeColor().themeData,
-      initialRoute: AppPages.INITIAL,
+      initialRoute: Routes.SPLASH,
       getPages: AppPages.routes,
       initialBinding: AuthBinding(),
     ),

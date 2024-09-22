@@ -27,12 +27,12 @@ class AuthController extends GetxController {
 
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-    loadUserFromStorage();
+   await loadUserFromStorage();
   }
   // Charger l'utilisateur depuis le stockage sécurisé au démarrage
-  void loadUserFromStorage() async {
+  Future<void> loadUserFromStorage() async {
     String? token = await secureStorage.getToken();
     print("token $token");
     if (token != null) {
@@ -43,8 +43,9 @@ class AuthController extends GetxController {
         user.value = fetchedUser;
         isLoginSuccess.value = true;
       } catch (e) {
+        print("e $e");
         // Si le token est invalide ou expiré
-        await logout();
+        //await logout();
       }
     }
   }

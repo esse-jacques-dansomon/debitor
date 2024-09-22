@@ -25,25 +25,24 @@ class LoginProvider  {
          return authResponse;
       } else {
         throw Exception('Failed to login ${response.body}');
-        throw Exception('Failed to login');
       }
     } catch (e) {
       throw Exception('Failed to login ${e.toString()}');
-      throw Exception('Failed to login');
     }
   }
 
   Future<User> getUser() async {
+    final response = await httpClient.get('/auth/me');
+
     try {
-      final response = await httpClient.get('/auth/me');
       if (response.statusCode == 200) {
-        final user = User.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+        final user = User.fromJson(jsonDecode(response.body));
         return user;
       } else {
-        throw Exception('Failed to get user');
+        throw Exception('Failed to get user ${response.body}');
       }
     } catch (e) {
-      throw Exception('Failed to get user');
+      throw Exception('Failed to get user ${e.toString()}');
     }
   }
 

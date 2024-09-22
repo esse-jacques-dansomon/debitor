@@ -23,9 +23,10 @@ class AppHttpClient {
   Future<http.Response> _sendRequest(
       Future<http.Response> Function() request) async {
     try {
+      await _updateToken();
+
       if (token.isNotEmpty) {
         _headers()['Authorization'] = 'Bearer $token';
-        print("Token appclient $token");
       }
       await _updateToken();
       final response = await request();
@@ -48,6 +49,7 @@ class AppHttpClient {
   }) async {
     final url =
         Uri.parse('$baseUrl$uri').replace(queryParameters: queryParameters);
+    print("url $url");
     return _sendRequest(() => http.get(url, headers: _headers()));
   }
 
@@ -85,6 +87,14 @@ class AppHttpClient {
   }
 
   Map<String, String> _headers() {
+    if (token.isNotEmpty) {
+      return {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+        'Access-Control-Allow-Origin': '*',
+      };
+    }
     return {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
