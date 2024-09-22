@@ -2,7 +2,7 @@ package me.essejacques.shop_api.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<JwtAuthResponse> login(@Valid @RequestBody LoginDto loginDto) {
         Optional<UserDetailsProjection> user = userService.findUserProjectedByEmail(loginDto.getUsernameOrEmail());
         log.info("User: {}", user);
         String token = authService.login(loginDto);
@@ -46,7 +46,7 @@ public class AuthController {
     }
 
     @GetMapping("/user")
-    public Optional<User> userDetails(HttpServletRequest request, HttpServletResponse response) {
+    public Optional<User> userDetails(HttpServletRequest request) {
         String token = jwtService.getTokenFormRequest(request);
         String username = jwtService.getUsername(token);
         return userService.findUserByEmail(username);
