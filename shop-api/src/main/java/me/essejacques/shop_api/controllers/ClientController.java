@@ -2,6 +2,7 @@ package me.essejacques.shop_api.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import me.essejacques.shop_api.dtos.ClientProjection;
 import me.essejacques.shop_api.entity.Client;
 import me.essejacques.shop_api.services.interfaces.ClientService;
 import org.springframework.http.HttpStatus;
@@ -39,9 +40,9 @@ public class ClientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Client>> getAllClients(
-            @RequestParam(required = false) Boolean hasAccount) {
-        List<Client> clients;
+    public ResponseEntity<List<ClientProjection>> getAllClients(
+            @RequestParam(required = false) Boolean hasAccount ) {
+        List<ClientProjection> clients;
         if (hasAccount == null) {
             clients = clientService.getAllClients();
         } else if (hasAccount) {

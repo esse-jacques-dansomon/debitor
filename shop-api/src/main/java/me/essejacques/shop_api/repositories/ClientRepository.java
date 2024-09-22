@@ -1,5 +1,6 @@
 package me.essejacques.shop_api.repositories;
 
+import me.essejacques.shop_api.dtos.ClientProjection;
 import me.essejacques.shop_api.entity.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
   List<Client> findByUserIsNull();
   // Liste un client par son numéro de téléphone
   Optional<Client> findByTelephone(String telephone);
+  List<ClientProjection> findAllProjectedBy();
+  List<ClientProjection> findAllProjectedByUserIsNotNull();
+  List<ClientProjection> findAllProjectedByUserIsNull();
 }

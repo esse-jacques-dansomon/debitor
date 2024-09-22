@@ -11,10 +11,6 @@ import 'app/routes/app_pages.dart';
 Future<void> main() async {
   // WidgetsFlutterBinding.ensureInitialized( );
 
-
-  await DependencyInjection.init();
-
-
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   //screen rotation disabled
@@ -28,5 +24,7 @@ Future<void> main() async {
       initialBinding: AuthBinding(),
     ),
   );
+
+  await DependencyInjection.init();
 
 }

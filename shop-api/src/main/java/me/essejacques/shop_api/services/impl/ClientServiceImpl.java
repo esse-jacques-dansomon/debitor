@@ -1,5 +1,6 @@
 package me.essejacques.shop_api.services.impl;
 
+import me.essejacques.shop_api.dtos.ClientProjection;
 import me.essejacques.shop_api.entity.Client;
 import me.essejacques.shop_api.repositories.ClientRepository;
 import me.essejacques.shop_api.services.interfaces.ClientService;
@@ -43,18 +44,18 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
+    public List<ClientProjection> getAllClients() {
+        return clientRepository.findAllProjectedBy();
     }
 
     @Override
-    public List<Client> getClientsWithUserAccount() {
-        return clientRepository.findByUserIsNotNull();
+    public List<ClientProjection> getClientsWithUserAccount() {
+        return clientRepository.findAllProjectedByUserIsNotNull();
     }
 
     @Override
-    public List<Client> getClientsWithoutUserAccount() {
-        return clientRepository.findByUserIsNull();
+    public List<ClientProjection> getClientsWithoutUserAccount() {
+        return clientRepository.findAllProjectedByUserIsNull();
     }
 
     @Override

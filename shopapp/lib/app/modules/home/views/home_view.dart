@@ -12,15 +12,12 @@ import 'balance_card.dart';
 class HomeView extends GetView<HomeController> {
    const HomeView({super.key});
 
-
-  HomeController get controller => Get.find();
-
+  @override
+  HomeController get controller => Get.find<HomeController>();
 
 
   @override
   Widget build(BuildContext context) {
-    final AuthController authController = Get.find<AuthController>();
-
     return Scaffold(
       backgroundColor: ThemeColor.primaryBlack,
       body: SafeArea(
@@ -57,7 +54,7 @@ class HomeView extends GetView<HomeController> {
                                      return CircleAvatar(
                                         radius: 30.0,
                                         backgroundImage:
-                                        NetworkImage(authController.user.value?.photo ?? 'https://via.placeholder.com/150'),
+                                        NetworkImage(controller.authController.user.value?.photo ?? 'https://via.placeholder.com/150'),
                                         backgroundColor: Colors.transparent,
                                       );
                                     }
@@ -65,12 +62,12 @@ class HomeView extends GetView<HomeController> {
                                 ),
                                 const SizedBox(width: 10),
                                  Obx(() {
-                                  if(authController.user.value != null){
+                                  if(controller.authController.user.value != null){
                                  return    Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Text(authController.user.value!.email,
+                                        Text(controller.authController.user.value!.email,
                                             style: const TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.white,
@@ -91,7 +88,7 @@ class HomeView extends GetView<HomeController> {
                             ),
                             InkWell(
                               onTap: ()  {
-                                 authController.logout();
+                                 controller.authController.logout();
                               },
                               child: const Icon(Icons.login_outlined,
                                   color: Colors.white, size: 25),
@@ -117,23 +114,27 @@ class HomeView extends GetView<HomeController> {
                                   color: ThemeColor.primaryBlack,
                                   fontWeight: FontWeight.normal)),
                           const SizedBox(height: 20),
-                          ListView.builder(
-                            itemCount: 50,
-                            scrollDirection: Axis.vertical,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.all(0),
-                            itemBuilder: (context, index) {
-                              return TransactionCard(
-                                title: 'Transaction ${index + 1}',
-                                date: '15 May 2023',
-                                amount: 'XOF 1,000,000',
-                                type: 'Deposit',
+                          Obx((){
+                            if(controller.debts.isEmpty){
+                              return SizedBox(
+                                  height: MediaQuery.of(context).size.height/2,
+                                  child: const Center(child: Text("Vous n'avez pas de débit")));
+                            }else{
+                              return ListView.builder(
+                                itemCount: controller.debts.length,
+                                scrollDirection: Axis.vertical,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.all(0),
+                                itemBuilder: (context, index) {
+                                  return TransactionCard( debt: controller.debts[index]);
+                                },
                               );
 
-                            },
-                          ),
+                            }
 
+                          }),
+                          SizedBox(height: 40),
                         ],
                       ),
                     ),
@@ -142,7 +143,7 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
               // balance card
-              const BalanceCard(),
+               BalanceCard( balance: controller.getBalance(), ),
             ],
           ),
         ),

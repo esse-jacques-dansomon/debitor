@@ -41,13 +41,15 @@ class AuthController extends GetxController {
       try {
         // Supposez que votre API a un endpoint pour obtenir les informations de l'utilisateur
         User fetchedUser = await loginProvider.getUser();
-
         user.value = fetchedUser;
         isLoginSuccess.value = true;
+        //wait 3 sec
+        await Future.delayed(const Duration(seconds: 6));
+        Get.offAllNamed(Routes.HOME);
       } catch (e) {
         print("e $e");
         // Si le token est invalide ou expiré
-        //await logout();
+        await logout();
       }
     }
   }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shopapp/app/themes/theme_colors.dart';
 
-import '../data/model/debt_model.dart';
+import '../data/model/client_model.dart';
 
-class TransactionCard extends StatelessWidget {
-  final Debt debt;
-  const TransactionCard({super.key, required this.debt});
+
+class ClientCard extends StatelessWidget {
+  final Client client;
+  const ClientCard({super.key, required this.client});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class TransactionCard extends StatelessWidget {
             child: CircleAvatar(
               radius: 30.0,
               backgroundImage:
-              NetworkImage(debt.client.user.photo),
+              NetworkImage(client.user.photo),
               backgroundColor: Colors.transparent,
             ),
           ),
@@ -50,7 +51,7 @@ class TransactionCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children:  [
                 Text(
-                  debt.client.surname,
+                  client.surname,
                   style: const TextStyle(
                     fontSize: 14,
                     color: ThemeColor.primaryBlack,
@@ -59,7 +60,7 @@ class TransactionCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  debt.date.toString(),
+                  client.user.email,
                   style: const TextStyle(
                     fontSize: 11,
                     color: ThemeColor.primaryShadowGrey,
@@ -75,7 +76,7 @@ class TransactionCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "${debt.amount.toStringAsFixed(2)} XOF",
+                client.telephone,
                 style: const TextStyle(
                   fontSize: 12,
                   color: ThemeColor.primaryBlack,
@@ -83,12 +84,16 @@ class TransactionCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 5),
-              Text(
-                debt.paid ? "Paid" : "Dette",
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: ThemeColor.primaryShadowGrey,
-                  fontWeight: FontWeight.w600,
+              SizedBox(
+                width: 140,
+                child: Text(
+                  client.address,
+                  style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    fontSize: 12,
+                    color: ThemeColor.primaryShadowGrey,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

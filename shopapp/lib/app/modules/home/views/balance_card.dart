@@ -1,9 +1,15 @@
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_common/get_reset.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:shopapp/app/routes/app_pages.dart';
 
 import '../../../themes/theme_colors.dart';
 import '../../../widgets/text_icon.dart';
 class BalanceCard extends StatelessWidget {
-  const BalanceCard({super.key});
+  final double balance;
+  const BalanceCard({super.key, required this.balance });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +42,7 @@ class BalanceCard extends StatelessWidget {
                     color: ThemeColor.primaryDarkGrey,
                     fontWeight: FontWeight.normal)),
             const SizedBox(height: 10),
-            const Text("XOF 1,000,000",
+             Text("XOF ${balance.toStringAsFixed(2)}",
                 style: TextStyle(
                     fontSize: 20,
                     color: ThemeColor.primaryBlack,
@@ -48,11 +54,16 @@ class BalanceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextIcon(text: 'Transfer', icon: Icons.arrow_upward, onTap: () {}),
-                TextIcon(text: 'Withdraw', icon: Icons.arrow_forward, onTap: () {}),
-                TextIcon(text: 'Deposit', icon: Icons.money, onTap: () {}),
-                TextIcon(text: 'Clients', icon: Icons.add_card, onTap: () {}),
-                const SizedBox(width: 10),
+                TextIcon(text: 'Depot', icon: Icons.arrow_upward, onTap: () {
+                  Get.toNamed(Routes.DEBIT);
+                }),
+                TextIcon(text: 'Archives', icon: Icons.arrow_forward, onTap: () {
+                  Get.toNamed(Routes.DEBIT);
+                }),
+                TextIcon(text: 'Clients', icon: Icons.add_card, onTap: () {
+                  Get.toNamed(Routes.CLIENTS);
+                }),
+                const SizedBox(width: 50),
               ],
             )
 
