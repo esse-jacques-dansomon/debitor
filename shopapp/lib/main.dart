@@ -5,15 +5,17 @@ import 'package:get/get.dart';
 import 'package:shopapp/app/themes/theme_colors.dart';
 import 'package:shopapp/app/utils/dependency_injection.dart';
 
+import 'app/modules/auth/bindings/auth_binding.dart';
 import 'app/routes/app_pages.dart';
 
-void main() {
+Future<void> main() async {
+  await DependencyInjection.init();
 
-  DependencyInjection.init();
-  //screen rotation disabled
+  WidgetsFlutterBinding.ensureInitialized( );
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-
+  //screen rotation disabled
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -21,8 +23,8 @@ void main() {
       theme: ThemeColor().themeData,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
+      initialBinding: AuthBinding(),
     ),
   );
-
 
 }

@@ -38,12 +38,13 @@ public class SpringSecurityConfig {
                     authorize.requestMatchers("/docs").permitAll();
                     authorize.requestMatchers("/open-api/**").permitAll();
                     authorize.requestMatchers("/swagger-ui/**").permitAll();
+                    authorize.requestMatchers("/actuator/**").permitAll();
                     authorize.requestMatchers("/vault/**").permitAll();
                     authorize.requestMatchers("/users/**").permitAll();
-                    authorize.requestMatchers("/classrooms/**").permitAll();
-                    authorize.requestMatchers("/courses/**").permitAll();
-                    authorize.requestMatchers("/sessions/**").permitAll();
-                    authorize.requestMatchers("/students/**").permitAll();
+                    authorize.requestMatchers("/auth/**").permitAll();
+                    authorize.requestMatchers("/debts/**").permitAll();
+                    authorize.requestMatchers("/payments/**").permitAll();
+                    authorize.requestMatchers("/clients/**").permitAll();
                     authorize.requestMatchers("**").permitAll();
                     authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     authorize.anyRequest().authenticated();

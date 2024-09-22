@@ -7,6 +7,7 @@ import java.security.Key;
 import java.util.Date;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.util.StringUtils;
 import javax.crypto.SecretKey;
 
 @Service
+@Slf4j
 public class JwtService {
     @Value("${security.jwt.secret-key}")
     private String secretKey;
@@ -23,6 +25,8 @@ public class JwtService {
     private long jwtExpiration;
 
     public String generateToken(Authentication authentication) {
+        log.info("Generating JWT token for user: {}", authentication.getName());
+        log.debug("Authentication: {}", authentication);
         String username = authentication.getName();
 
         Date currentDate = new Date();

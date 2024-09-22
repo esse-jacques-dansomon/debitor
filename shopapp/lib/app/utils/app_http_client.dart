@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shopapp/app/utils/secure_storage.dart';
 
 class AppHttpClient {
+
   final String baseUrl;
   final SecureStorage secureStorage;
 
@@ -24,7 +25,7 @@ class AppHttpClient {
     try {
       if (token.isNotEmpty) {
         _headers()['Authorization'] = 'Bearer $token';
-        print("Token: " + token);
+        print("Token appclient $token");
       }
       await _updateToken();
       final response = await request();
@@ -52,13 +53,13 @@ class AppHttpClient {
 
   Future<http.Response> post(
     String uri, {
-    dynamic data,
+    dynamic body,
     Map<String, dynamic>? queryParameters,
   }) async {
     final url =
         Uri.parse('$baseUrl$uri').replace(queryParameters: queryParameters);
     return _sendRequest(
-        () => http.post(url, headers: _headers(), body: jsonEncode(data)));
+        () => http.post(url, headers: _headers(), body: jsonEncode(body)));
   }
 
   Future<http.Response> put(

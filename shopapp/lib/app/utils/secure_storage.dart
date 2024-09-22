@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shopapp/app/data/model/auth_response_model.dart';
 import 'package:shopapp/app/utils/constants.dart';
 
 class SecureStorage {
@@ -35,6 +38,11 @@ class SecureStorage {
   }
 
   Future<void> deleteAll() async {
-    return storage.deleteAll();
+    return  storage.deleteAll();
+  }
+
+  void persistUserAndToken(AuthResponse authResponse) {
+    storage.write(key: _tokenKey, value: authResponse.accessToken);
+    storage.write(key: _user, value: jsonEncode(authResponse.user));
   }
 }

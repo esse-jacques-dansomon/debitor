@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:shopapp/app/routes/app_pages.dart';
+import 'package:shopapp/app/themes/theme_colors.dart';
 
 import '../controllers/start_controller.dart';
 
@@ -11,7 +12,7 @@ class StartView extends GetView<StartController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: const Color(0xff73cf29),
+        color: ThemeColor.primaryBlack,
         width: double.infinity,
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -23,14 +24,14 @@ class StartView extends GetView<StartController> {
                 style: TextStyle(
                     fontSize: 33,
                     textBaseline: TextBaseline.ideographic,
-                    color: Colors.black,
+                    color: Colors.white,
                     fontWeight: FontWeight.w400)),
             const SizedBox(height: 20),
             const Text(
                 "Manage your finances easily using our intuitive and user-friendly interface and set financial goals to help you reach your financial goals.",
                 style: TextStyle(
                     fontSize: 14,
-                    color: Colors.black,
+                    color: Colors.white,
                     fontWeight: FontWeight.w300)),
             // button
             const SizedBox(height: 20),
@@ -47,7 +48,7 @@ class StartView extends GetView<StartController> {
                   width: double.infinity,
                   height: 50,
                   decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: ThemeColor.primaryBlue,
                       borderRadius: BorderRadius.circular(10)),
                   child: const Center(
                     child: Text(

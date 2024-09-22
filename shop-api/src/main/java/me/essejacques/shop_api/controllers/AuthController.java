@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import me.essejacques.shop_api.config.JwtService;
 import me.essejacques.shop_api.dtos.UserDetailsProjection;
 import me.essejacques.shop_api.entity.User;
@@ -25,6 +26,7 @@ import java.util.Optional;
 @RequestMapping("/auth")
 @RestController
 @Tag(name = "Authenticator", description = "Authenticator API")
+@Slf4j
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;
@@ -32,11 +34,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto) {
+        Optional<UserDetailsProjection> user = userService.findUserProjectedByEmail(loginDto.getUsernameOrEmail());
+        log.info("User: {}", user);
         String token = authService.login(loginDto);
+        log.info("Token: {}", token);
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setAccessToken(token);
 
-        Optional<UserDetailsProjection> user = userService.findUserProjectedByEmail(loginDto.getUsernameOrEmail());
         user.ifPresent(jwtAuthResponse::setUser);
         return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
     }

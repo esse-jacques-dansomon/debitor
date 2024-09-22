@@ -30,8 +30,6 @@ public class User {
 
     @Getter
     @Column(nullable = false)
-    @ToString.Exclude
-    @JsonIgnore
     protected String password;
 
     protected String photo;
