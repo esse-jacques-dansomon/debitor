@@ -6,7 +6,7 @@ class ClientsBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ClientsController>(
-      () => ClientsController(),
+      () => ClientsController(clientProvider: Get.find()),
     );
   }
 }

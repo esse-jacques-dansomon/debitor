@@ -1,9 +1,24 @@
 import 'package:get/get.dart';
+import 'package:shopapp/app/data/model/client_model.dart';
+
+import '../../../data/provider/client_provider.dart';
 
 class ClientsController extends GetxController {
-  //TODO: Implement ClientsController
+  final ClientProvider clientProvider;
+  ClientsController({required this.clientProvider});
 
-  final count = 0.obs;
+  final clients = RxList<Client>();
 
-  void increment() => count.value++;
+  @override
+  onInit()  {
+    super.onInit();
+    getClients();
+  }
+
+  void getClients() async {
+    var allClients = await clientProvider.getClients();
+    print(allClients);
+    clients.addAll(allClients);
+  }
+
 }

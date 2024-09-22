@@ -1,5 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_common/get_reset.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:shopapp/app/routes/app_pages.dart';
 
 import '../../../themes/theme_colors.dart';
 import '../../../widgets/text_icon.dart';
@@ -50,10 +54,16 @@ class BalanceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextIcon(text: 'Depot', icon: Icons.arrow_upward, onTap: () {}),
-                TextIcon(text: 'Archives', icon: Icons.arrow_forward, onTap: () {}),
-                TextIcon(text: 'Payments', icon: Icons.money, onTap: () {}),
-                TextIcon(text: 'Clients', icon: Icons.add_card, onTap: () {}),
+                TextIcon(text: 'Depot', icon: Icons.arrow_upward, onTap: () {
+                  Get.toNamed(Routes.DEBIT);
+                }),
+                TextIcon(text: 'Archives', icon: Icons.arrow_forward, onTap: () {
+                  Get.toNamed(Routes.DEBIT);
+                }),
+                TextIcon(text: 'Clients', icon: Icons.add_card, onTap: () {
+                  Get.toNamed(Routes.CLIENTS);
+                }),
+                const SizedBox(width: 50),
               ],
             )
 

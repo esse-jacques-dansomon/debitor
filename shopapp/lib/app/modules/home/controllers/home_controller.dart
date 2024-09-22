@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:get/get.dart';
 import '../../../data/model/debt_model.dart';
 import '../../../data/provider/debt_provider.dart';
@@ -16,18 +14,14 @@ class HomeController extends GetxController {
   onInit()  {
     super.onInit();
     getShopperDebts();
-    print("onInit");
   }
 
   void getShopperDebts() async {
      var user = authController.user.value;
      if(user == null){
-       print("user is null in getShopperDebts");
        return;
      }
-     print("user $user in getShopperDebts");
      var shopperDebts = await debtProvider.getShopperDebts(user.id.toString());
-     print(shopperDebts);
      debts.addAll(shopperDebts);
    }
 
@@ -40,16 +34,4 @@ class HomeController extends GetxController {
      }
      return balance;
    }
-
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  // }
-  //
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
-
-
 }
