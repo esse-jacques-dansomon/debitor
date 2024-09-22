@@ -60,7 +60,7 @@ class ClientCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  client.address,
+                  client.user.email,
                   style: const TextStyle(
                     fontSize: 11,
                     color: ThemeColor.primaryShadowGrey,
@@ -84,6 +84,18 @@ class ClientCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 5),
+              SizedBox(
+                width: 140,
+                child: Text(
+                  client.address,
+                  style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    fontSize: 12,
+                    color: ThemeColor.primaryShadowGrey,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
             ],
           )
         ],

@@ -8,6 +8,8 @@ class ClientsController extends GetxController {
   ClientsController({required this.clientProvider});
 
   final clients = RxList<Client>();
+  final filterClients = RxList<Client>();
+
 
   @override
   onInit()  {
@@ -17,8 +19,23 @@ class ClientsController extends GetxController {
 
   void getClients() async {
     var allClients = await clientProvider.getClients();
-    print(allClients);
     clients.addAll(allClients);
+    filterClients.addAll(allClients);
+  }
+
+  void searchClients(String query) async {
+    // Réinitialiser la liste filtrée
+    filterClients.clear();
+
+    // Filtrer les clients selon plusieurs attributs
+    var filteredClients = clients.where((client) {
+      return client.surname.toLowerCase().contains(query.toLowerCase()) ||
+          client.telephone.toLowerCase().contains(query.toLowerCase()) ||
+          client.address.toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
+    // Ajouter les résultats filtrés à la liste
+    filterClients.addAll(filteredClients);
   }
 
 }
