@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment # Kubernetes resource kind we are creating
+metadata:
+  name: shopapi-deploy
+  namespace: webapps
+spec:
+  selector:
+    matchLabels:
+      app: shopapi
+  replicas: 1 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      namespace: webapps
+      labels:
+        app: shopapi
+    spec:
+      containers:
+        - name: shopapi
+          image: essejacquesdansomon/shopapi:latest # Image that will be used to containers in the cluster
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080 # The port that the container is running on in the cluster
+              protocol: TCP
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: postgres-configmap
+#                  key: SPRING_PROFILES_ACTIVE
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name:  postgres-configmap
+                  key: DATABASE_NAME
+            - name: DATABASE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name:  postgres-configmap
+                  key: DATABASE_PORT
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name:  postgres-configmap
+                  key: DATABASE_HOST
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: postgres_user
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: postgres_password
+
+---
+
+apiVersion: v1 # Kubernetes API version
+kind: Service # Kubernetes resource kind we are creating
+metadata: # Metadata of the resource kind we are creating
+  name: shopapi-service
+  namespace: webapps
+spec:
+  selector:
+    app: shopapi
+  ports:
+    - protocol: "TCP"
+      port: 8080 # The port that the service is running on in the cluster
+      targetPort: 8080 # The port exposed by the service
+      nodePort: 30080 # The port that the service is running on in the
+  type: NodePort # type of the service.
