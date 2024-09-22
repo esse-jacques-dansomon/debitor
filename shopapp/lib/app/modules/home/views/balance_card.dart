@@ -1,9 +1,11 @@
+
 import 'package:flutter/material.dart';
 
 import '../../../themes/theme_colors.dart';
 import '../../../widgets/text_icon.dart';
 class BalanceCard extends StatelessWidget {
-  const BalanceCard({super.key});
+  final double balance;
+  const BalanceCard({super.key, required this.balance });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class BalanceCard extends StatelessWidget {
                     color: ThemeColor.primaryDarkGrey,
                     fontWeight: FontWeight.normal)),
             const SizedBox(height: 10),
-            const Text("XOF 1,000,000",
+             Text("XOF ${balance.toStringAsFixed(2)}",
                 style: TextStyle(
                     fontSize: 20,
                     color: ThemeColor.primaryBlack,
@@ -48,11 +50,10 @@ class BalanceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextIcon(text: 'Transfer', icon: Icons.arrow_upward, onTap: () {}),
-                TextIcon(text: 'Withdraw', icon: Icons.arrow_forward, onTap: () {}),
-                TextIcon(text: 'Deposit', icon: Icons.money, onTap: () {}),
+                TextIcon(text: 'Depot', icon: Icons.arrow_upward, onTap: () {}),
+                TextIcon(text: 'Archives', icon: Icons.arrow_forward, onTap: () {}),
+                TextIcon(text: 'Payments', icon: Icons.money, onTap: () {}),
                 TextIcon(text: 'Clients', icon: Icons.add_card, onTap: () {}),
-                const SizedBox(width: 10),
               ],
             )
 

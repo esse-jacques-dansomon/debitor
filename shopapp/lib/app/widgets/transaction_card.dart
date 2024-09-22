@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shopapp/app/themes/theme_colors.dart';
 
+import '../data/model/debt_model.dart';
+
 class TransactionCard extends StatelessWidget {
-  final String title;
-  final String date;
-  final String amount;
-  final String type;
-  const TransactionCard({super.key, required this.title, required this.date, required this.amount, required this.type});
+  final Debt debt;
+  const TransactionCard({super.key, required this.debt});
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +31,13 @@ class TransactionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           //avatar
-          const SizedBox(
+           SizedBox(
             width: 40,
             height: 40,
             child: CircleAvatar(
               radius: 30.0,
               backgroundImage:
-              NetworkImage('https://via.placeholder.com/150'),
+              NetworkImage(debt.client.user.photo),
               backgroundColor: Colors.transparent,
             ),
           ),
@@ -51,7 +50,7 @@ class TransactionCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children:  [
                 Text(
-                  title,
+                  debt.client.surname,
                   style: const TextStyle(
                     fontSize: 14,
                     color: ThemeColor.primaryBlack,
@@ -60,7 +59,7 @@ class TransactionCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  date,
+                  debt.date.toString(),
                   style: const TextStyle(
                     fontSize: 11,
                     color: ThemeColor.primaryShadowGrey,
@@ -76,7 +75,7 @@ class TransactionCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                amount,
+                "${debt.amount.toStringAsFixed(2)} XOF",
                 style: const TextStyle(
                   fontSize: 12,
                   color: ThemeColor.primaryBlack,
@@ -85,7 +84,7 @@ class TransactionCard extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                type,
+                debt.paid ? "Paid" : "Dette",
                 style: const TextStyle(
                   fontSize: 11,
                   color: ThemeColor.primaryShadowGrey,

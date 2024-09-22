@@ -12,7 +12,10 @@ import '../../home/views/home_view.dart';
 
 class SplashView extends GetView<AuthController> {
 
-  AuthController get sessionBlocProvider => Get.find<AuthController>();
+
+  @override
+  AuthController get controller => Get.find<AuthController>();
+
 
   const SplashView({super.key});
   @override
@@ -25,10 +28,13 @@ class SplashView extends GetView<AuthController> {
           Expanded(child: Lottie.asset("assets/lotties/splash.json"))
         ],
       ),
+      disableNavigation: true,
       duration: 4000,
       backgroundColor: ThemeColor.primaryBlue,
       splashIconSize: 200,
-      nextScreen: Get.find<AuthController>().isLoginSuccess.value == true ? const HomeView() : const StartView(),
+      nextScreen: CircularProgressIndicator(
+        color: ThemeColor.primaryBlue,
+      ),
     );
   }
 }
