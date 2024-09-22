@@ -2,7 +2,9 @@ server:
   port: 9090
   servlet:
     context-path: /api/v1
-
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 spring:
   datasource:
@@ -18,16 +20,13 @@ spring:
   application:
     name: shop-api
   profiles:
-    active: cloudinary
-    #    active: cloudinary, firebase
+    active: prod
 
   devtools:
     restart:
       enabled: true
     livereload:
       enabled: true
-
-
 
 cloudinary:
   cloud-name: shopapi
@@ -58,6 +57,8 @@ security:
 
 photoservice:
   provider: cloudinary #cloudinary, firebase
+
+
 
 debug: true
 trace: false

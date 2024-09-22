@@ -2,6 +2,7 @@ package me.essejacques.shop_api.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.essejacques.shop_api.dtos.UserDetailsProjection;
 import me.essejacques.shop_api.entity.User;
 import me.essejacques.shop_api.services.interfaces.UserService;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @Tag(name = "Users", description = "Users API")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -35,6 +37,7 @@ public class UserController {
             @RequestPart("user") User user,
             @RequestPart("file") MultipartFile file
                                            ) {
+        log.info("Create user, user : {}, file : {}", user, file);
         User createdUser = userService.createUser(user, file);
         return ResponseEntity.ok(createdUser);
     }

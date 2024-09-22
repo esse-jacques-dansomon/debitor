@@ -9,7 +9,7 @@ import 'app/modules/auth/bindings/auth_binding.dart';
 import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized( );
+  // WidgetsFlutterBinding.ensureInitialized( );
 
 
   await DependencyInjection.init();
@@ -20,7 +20,7 @@ Future<void> main() async {
   //screen rotation disabled
   runApp(
     GetMaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       title: "Application",
       theme: ThemeColor().themeData,
       initialRoute: Routes.SPLASH,

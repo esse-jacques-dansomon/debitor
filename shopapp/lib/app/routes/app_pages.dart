@@ -1,14 +1,20 @@
 import 'package:get/get.dart';
-import 'package:shopapp/app/modules/auth/bindings/auth_binding.dart';
-import 'package:shopapp/app/modules/auth/views/login_view.dart';
 
+import '../modules/auth/bindings/auth_binding.dart';
+import '../modules/auth/views/login_view.dart';
+import '../modules/auth/views/splash_view.dart';
 import '../modules/clients/bindings/clients_binding.dart';
 import '../modules/clients/views/clients_view.dart';
+import '../modules/debit/bindings/debit_binding.dart';
+import '../modules/debit/views/debit_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/payment/bindings/payment_binding.dart';
 import '../modules/payment/views/payment_view.dart';
-import '../modules/auth/views/splash_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
+import '../modules/register/bindings/register_binding.dart';
+import '../modules/register/views/register_view.dart';
 import '../modules/start/bindings/start_binding.dart';
 import '../modules/start/views/start_view.dart';
 
@@ -20,10 +26,7 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(
-        name: _Paths.SPLASH,
-        page: () => const SplashView()
-    ),
+    GetPage(name: _Paths.SPLASH, page: () => const SplashView()),
     GetPage(
       name: _Paths.START,
       page: () => const StartView(),
@@ -40,6 +43,12 @@ class AppPages {
       binding: AuthBinding(),
     ),
     GetPage(
+      name: _Paths.REGISTER,
+      page: () => const RegisterView(),
+      binding: RegisterBinding(),
+
+    ),
+    GetPage(
       name: _Paths.CLIENTS,
       page: () => const ClientsView(),
       binding: ClientsBinding(),
@@ -49,6 +58,15 @@ class AppPages {
       page: () => const PaymentView(),
       binding: PaymentBinding(),
     ),
-
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.DEBIT,
+      page: () => const DebitView(),
+      binding: DebitBinding(),
+    ),
   ];
 }

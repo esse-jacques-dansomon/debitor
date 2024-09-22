@@ -23,12 +23,12 @@ public class Debt {
     private Double amount;
     private Boolean paid = Boolean.FALSE;
 
-
+    // Une dette est associée à un client
     @ManyToOne
     @JoinColumn(name = "client_id")
-    // Une dette est associée à un client
-    private Client client;
+    private User client;
 
+    //Une
     // Une dette peut avoir plusieurs paiements
     @OneToMany(mappedBy = "debt", cascade = CascadeType.ALL)
     private Set<Payment> payments;

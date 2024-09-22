@@ -70,7 +70,7 @@ class HomeView extends GetView<HomeController> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Text("${authController.user.value!.email}",
+                                        Text(authController.user.value!.email,
                                             style: const TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.white,
@@ -89,8 +89,13 @@ class HomeView extends GetView<HomeController> {
                                 }),
                               ],
                             ),
-                            const Icon(Icons.notification_add,
-                                color: Colors.white, size: 25),
+                            InkWell(
+                              onTap: ()  {
+                                 authController.logout();
+                              },
+                              child: const Icon(Icons.login_outlined,
+                                  color: Colors.white, size: 25),
+                            ),
                           ],
 
                         ),

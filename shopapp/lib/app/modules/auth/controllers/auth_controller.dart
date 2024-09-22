@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:shopapp/app/routes/app_pages.dart';
@@ -50,7 +52,7 @@ class AuthController extends GetxController {
     }
   }
 
-  void onSubmitted() async {
+  void login() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
@@ -74,6 +76,7 @@ class AuthController extends GetxController {
       }
     }
   }
+
 
   // Méthode de déconnexion
   Future<void> logout() async {
