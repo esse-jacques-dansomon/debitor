@@ -28,7 +28,11 @@ public class Debt {
     @JoinColumn(name = "client_id")
     private User client;
 
-    //Une
+    // Une dette est associée à un butiquier
+    @ManyToOne
+    @JoinColumn(name = "butiquier_id")
+    private User butiquier;
+
     // Une dette peut avoir plusieurs paiements
     @OneToMany(mappedBy = "debt", cascade = CascadeType.ALL)
     private Set<Payment> payments;
