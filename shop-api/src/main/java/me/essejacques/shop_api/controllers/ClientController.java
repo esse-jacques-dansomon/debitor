@@ -3,6 +3,7 @@ package me.essejacques.shop_api.controllers;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import me.essejacques.shop_api.controllers.interfaces.IClientController;
 import me.essejacques.shop_api.dtos.ClientDto;
 import me.essejacques.shop_api.entity.Client;
 import me.essejacques.shop_api.requests.ClientRequest;
@@ -21,28 +22,32 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/clients")
 @Tag(name = "Clients", description = "Clients API")
-public class ClientController {
+public class ClientController implements IClientController {
     private final ClientService clientService;
     private final ModelMapper modelMapper;
 
+    @Override
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<ClientDto> createClient(@RequestBody ClientRequest clientRequest, @RequestPart("file") MultipartFile file) {
         Client clientCreated = clientService.createClient(clientRequest, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(clientCreated, ClientDto.class));
     }
 
+    @Override
     @PutMapping("/{id}")
     public ResponseEntity<ClientDto> updateClient(@PathVariable Long id,@Valid @RequestBody ClientRequest clientRequest) {
         Client updateClient = clientService.updateClient(id, clientRequest);
         return ResponseEntity.ok(modelMapper.map(updateClient, ClientDto.class));
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @GetMapping
     public ResponseEntity<List<ClientDto>> getAllClients(
             @RequestParam(required = false) Boolean hasAccount ) {
@@ -59,6 +64,7 @@ public class ClientController {
         );
     }
 
+    @Override
     @GetMapping("/search")
     public ResponseEntity<Optional<ClientDto>> getClientByTelephone(@RequestParam String telephone) {
         Optional<Client> client = clientService.getClientByTelephone(telephone);

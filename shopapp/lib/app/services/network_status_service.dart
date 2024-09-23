@@ -17,11 +17,18 @@ class NetworkStatusService extends GetxService {
         status.contains(ConnectivityResult.wifi)) {
       if (Get.isDialogOpen == false) {
         Get.offNamedUntil(Routes.SPLASH, (_) => false);
+
       }
     }
     else {
       if (Get.isDialogOpen == false) {
-        Get.dialog(NetworkErrorItem(), useSafeArea: false);
+        Connectivity().checkConnectivity().asStream().listen((event) {
+          if (event == ConnectivityResult.none) {
+            Get.dialog(NetworkErrorItem(), useSafeArea: false);
+          }
+
+        });
+
       }
     }
   }

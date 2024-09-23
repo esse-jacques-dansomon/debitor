@@ -3,6 +3,7 @@ package me.essejacques.shop_api.controllers;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.essejacques.shop_api.controllers.interfaces.IUserController;
 import me.essejacques.shop_api.dtos.UserDetailsDto;
 import me.essejacques.shop_api.dtos.UserDto;
 import me.essejacques.shop_api.entity.User;
@@ -22,11 +23,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Tag(name = "Users", description = "Users API")
 @Slf4j
-public class UserController {
+public class UserController implements IUserController {
     private final ModelMapper modelMapper;
-
     private final UserService userService;
 
+    @Override
     @GetMapping
     public ResponseEntity<Page<UserDetailsDto>> getAll(
             @RequestParam(defaultValue = "0") int page,
@@ -36,6 +37,7 @@ public class UserController {
         return ResponseEntity.ok(userPage.map((element) -> modelMapper.map(element, UserDetailsDto.class)));
     }
 
+    @Override
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<UserDto> createUser(
             @RequestPart("user") User user,
@@ -46,6 +48,7 @@ public class UserController {
         return ResponseEntity.ok(modelMapper.map(createdUser, UserDto.class));
     }
 
+    @Override
     @PutMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<UserDto> updateUser(@RequestBody User user) {
@@ -53,12 +56,14 @@ public class UserController {
         return ResponseEntity.ok(modelMapper.map(updatedUser, UserDto.class));
     }
 
+    @Override
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findUserById(@PathVariable Long id) {
         User user = userService.findUserById(id).orElseThrow(
@@ -67,6 +72,7 @@ public class UserController {
         return ResponseEntity.ok(modelMapper.map(user, UserDto.class));
     }
 
+    @Override
     @GetMapping("/email/{email}")
     public ResponseEntity<Optional<User>> findUserByEmail(@PathVariable String email) {
         Optional<User> user = userService.findUserByEmail(email);

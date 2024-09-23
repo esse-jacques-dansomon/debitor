@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import me.essejacques.shop_api.controllers.interfaces.IAuthController;
 import me.essejacques.shop_api.dtos.UserDto;
 import me.essejacques.shop_api.entity.User;
 import me.essejacques.shop_api.dtos.JwtAuthResponse;
@@ -26,12 +27,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Tag(name = "Authenticator", description = "Authenticator API")
 @Slf4j
-public class AuthController {
+public class AuthController implements IAuthController {
     private final AuthService authService;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
 
+    @Override
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         String token = authService.login(loginRequest);
@@ -44,6 +46,7 @@ public class AuthController {
     }
 
 
+    @Override
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserDto> getAuthUser() {
