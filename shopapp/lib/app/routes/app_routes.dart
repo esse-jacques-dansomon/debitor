@@ -12,6 +12,8 @@ abstract class Routes {
   static const START = _Paths.START;
   static const PROFILE = _Paths.PROFILE;
   static const DEBIT = _Paths.DEBIT;
+  static const DEBT_DETAILS = _Paths.DEBT_DETAILS;
+  static const LOADER = _Paths.LOADER;
 }
 
 abstract class _Paths {
@@ -25,4 +27,6 @@ abstract class _Paths {
   static const START = '/start';
   static const PROFILE = '/profile';
   static const DEBIT = '/debit';
+  static const DEBT_DETAILS = '/debt-details';
+  static const LOADER = '/loader';
 }

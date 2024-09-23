@@ -9,9 +9,10 @@ import 'app/modules/auth/bindings/auth_binding.dart';
 import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized( );
+  WidgetsFlutterBinding.ensureInitialized( );
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
 
   //screen rotation disabled
   runApp(

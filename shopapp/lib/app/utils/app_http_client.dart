@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:shopapp/app/utils/secure_storage.dart';
 
 class AppHttpClient {
-
   final String baseUrl;
   final SecureStorage secureStorage;
 
@@ -33,11 +32,11 @@ class AppHttpClient {
       _handleResponse(response);
       return response;
     } on SocketException {
-      throw SocketException('No Internet connection');
+      throw const SocketException('No Internet connection');
     } on HttpException {
-      throw HttpException('HTTP error');
+      throw const HttpException('HTTP error');
     } on FormatException {
-      throw FormatException('Unable to process the data');
+      throw const FormatException('Unable to process the data');
     } catch (e) {
       rethrow;
     }
@@ -104,7 +103,7 @@ class AppHttpClient {
 
   void _handleResponse(http.Response response) {
     if (response.statusCode == 401) {
-      print("Authentication4940 ${response}");
+      print("Authentication4940 $response");
       // authBloc.add(LoggedOut()); // Notify bloc of logout
       throw const HttpException('Unauthorized request');
     }

@@ -12,14 +12,17 @@ class NetworkStatusService extends GetxService {
     );
   }
 
-  void _getNetworkStatus(ConnectivityResult status) {
-    if (status == ConnectivityResult.mobile ||
-        status == ConnectivityResult.wifi) {
-      if (Get.isDialogOpen == true) {
-        Get.offNamedUntil(Routes.HOME, (_) => false);
+  void _getNetworkStatus(List<ConnectivityResult> status) {
+    if (status.contains(ConnectivityResult.mobile) ||
+        status.contains(ConnectivityResult.wifi)) {
+      if (Get.isDialogOpen == false) {
+        Get.offNamedUntil(Routes.SPLASH, (_) => false);
       }
-    } else {
-      Get.dialog(NetworkErrorItem(), useSafeArea: false);
+    }
+    else {
+      if (Get.isDialogOpen == false) {
+        Get.dialog(NetworkErrorItem(), useSafeArea: false);
+      }
     }
   }
 }

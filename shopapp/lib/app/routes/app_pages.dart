@@ -7,6 +7,8 @@ import '../modules/clients/bindings/clients_binding.dart';
 import '../modules/clients/views/clients_view.dart';
 import '../modules/debit/bindings/debit_binding.dart';
 import '../modules/debit/views/debit_view.dart';
+import '../modules/debt-details/bindings/debt_details_binding.dart';
+import '../modules/debt-details/views/debt_details_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/payment/bindings/payment_binding.dart';
@@ -46,7 +48,6 @@ class AppPages {
       name: _Paths.REGISTER,
       page: () => const RegisterView(),
       binding: RegisterBinding(),
-
     ),
     GetPage(
       name: _Paths.CLIENTS,
@@ -68,5 +69,10 @@ class AppPages {
       page: () => const DebitView(),
       binding: DebitBinding(),
     ),
+    GetPage(
+      name: _Paths.DEBT_DETAILS,
+      page: () => const DebtDetailsView(),
+      binding: DebtDetailsBinding(),
+    )
   ];
 }

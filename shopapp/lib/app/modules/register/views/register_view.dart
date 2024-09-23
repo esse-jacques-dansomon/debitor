@@ -37,7 +37,6 @@ class RegisterView extends GetView<RegisterController> {
                       return Container(
                         width: 100,
                         height: 100,
-
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
                           color: Colors.grey[200],
@@ -79,7 +78,8 @@ class RegisterView extends GetView<RegisterController> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: ThemeColor.primaryBlue),
+                          borderSide:
+                              const BorderSide(color: ThemeColor.primaryBlue),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 15, horizontal: 20),
@@ -195,12 +195,12 @@ class RegisterView extends GetView<RegisterController> {
                                   }
                                 },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                ThemeColor.primaryBlue),
-                            padding: MaterialStateProperty.all(
+                            backgroundColor:
+                                WidgetStateProperty.all(ThemeColor.primaryBlue),
+                            padding: WidgetStateProperty.all(
                                 const EdgeInsets.all(15)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -210,7 +210,7 @@ class RegisterView extends GetView<RegisterController> {
                               ? const CircularProgressIndicator(
                                   color: Colors.white,
                                 )
-                              : Text(
+                              : const Text(
                                   'Créer un compte',
                                   style: TextStyle(fontSize: 18),
                                 ),
@@ -219,9 +219,8 @@ class RegisterView extends GetView<RegisterController> {
                     ),
                   ],
                 )),
-
             TextButton(
-              onPressed: (){
+              onPressed: () {
                 Get.toNamed(Routes.LOGIN);
               },
               child: Container(
@@ -230,11 +229,20 @@ class RegisterView extends GetView<RegisterController> {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Vous avez déjà un compte?', style: TextStyle(color: Colors.grey, fontSize: 12),),
+                    Text(
+                      'Vous avez déjà un compte?',
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
                     SizedBox(
                       width: 10,
                     ),
-                    Text('Se connecter', style: TextStyle(color: ThemeColor.primaryBlack, fontSize: 12, fontWeight: FontWeight.bold),),
+                    Text(
+                      'Se connecter',
+                      style: TextStyle(
+                          color: ThemeColor.primaryBlack,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),

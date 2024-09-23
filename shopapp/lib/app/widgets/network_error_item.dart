@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:shopapp/app/themes/app_text_theme.dart';
 import 'package:shopapp/app/themes/theme_colors.dart';
 
-
-
 class NetworkErrorItem extends StatelessWidget {
+  const NetworkErrorItem({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
