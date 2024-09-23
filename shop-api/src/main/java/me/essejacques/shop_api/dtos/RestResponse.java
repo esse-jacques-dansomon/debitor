@@ -1,4 +1,4 @@
-package me.essejacques.shop_api.response;
+package me.essejacques.shop_api.dtos;
 
 import org.springframework.http.HttpStatus;
 

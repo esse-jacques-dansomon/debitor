@@ -6,11 +6,13 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import me.essejacques.shop_api.services.interfaces.PhotoService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
+@Profile("firebase")
 @Service
 public class PhotoServiceFirebase implements PhotoService {
 
@@ -23,17 +25,16 @@ public class PhotoServiceFirebase implements PhotoService {
 
     @Override
     public String uploadPhoto(MultipartFile file) throws Exception {
-        String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
-        BlobId blobId = BlobId.of(bucketName, fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(file.getContentType()).build();
-        storage.create(blobInfo, file.getBytes());
-        return String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
+       try {
+           String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+           BlobId blobId = BlobId.of(bucketName, fileName);
+           BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(file.getContentType()).build();
+           storage.create(blobInfo, file.getBytes());
+           return String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
+       }catch ( Exception e ) {
+           e.printStackTrace();
+           throw e;
+       }
     }
 
-    @Override
-    public void deletePhoto(String photoUrl) throws Exception {
-        String fileName = photoUrl.substring(photoUrl.lastIndexOf("/") + 1);
-        BlobId blobId = BlobId.of(bucketName, fileName);
-        storage.delete(blobId);
-    }
 }

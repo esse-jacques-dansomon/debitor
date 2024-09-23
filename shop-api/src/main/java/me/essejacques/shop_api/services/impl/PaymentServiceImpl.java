@@ -47,8 +47,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> getPaymentsByDebt(Debt debt) {
-        return paymentRepository.findByDebt(debt);
+    public List<Payment> getPaymentsByDebt(Long debtIt) {
+        return paymentRepository.findAllByDebt_Id(debtIt);
     }
 
     @Override

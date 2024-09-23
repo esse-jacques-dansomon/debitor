@@ -1,10 +1,8 @@
 package me.essejacques.shop_api.services.impl;
 
 
-import me.essejacques.shop_api.dtos.DebtDetailsProjection;
-import me.essejacques.shop_api.entity.Client;
 import me.essejacques.shop_api.entity.Debt;
-import me.essejacques.shop_api.entity.User;
+import me.essejacques.shop_api.entity.Payment;
 import me.essejacques.shop_api.repositories.DebtRepository;
 import me.essejacques.shop_api.services.interfaces.DebtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +49,8 @@ public class DebtServiceImpl implements DebtService {
     }
 
     @Override
-    public List<Debt> getDebtsByClient(Client client) {
-        return debtRepository.findByClient(client);
+    public List<Debt> getDebtsByClient(Long client) {
+        return debtRepository.findAllByClient_Id(client);
     }
 
     @Override
@@ -65,15 +63,15 @@ public class DebtServiceImpl implements DebtService {
         List<Debt> debts = debtRepository.findAll();
         return debts.stream()
                 .filter(debt -> debt.getPayments().stream()
-                        .mapToDouble(payment -> payment.getAmount())
+                        .mapToDouble(Payment::getAmount)
                         .sum() >= debt.getAmount())
                 .map(Debt::getId)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<DebtDetailsProjection> getDebtsByShoper(User user) {
-        return debtRepository.findAllProjectedByShopper(user);
+    public List<Debt> getDebtsByShoper(Long user) {
+        return debtRepository.findAllByShopper_Id(user);
     }
 }
 

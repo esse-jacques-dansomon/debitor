@@ -11,6 +11,6 @@ public interface PaymentService {
     Payment updatePayment(Long id, Payment payment);
     void deletePayment(Long id);
     List<Payment> getAllPayments();
-    List<Payment> getPaymentsByDebt(Debt debt);
+    List<Payment> getPaymentsByDebt(Long debtIt);
     Optional<Payment> getPaymentById(Long id);
 }

@@ -1,18 +1,18 @@
 package me.essejacques.shop_api.controllers;
 
+
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
-import me.essejacques.shop_api.config.JwtService;
-import me.essejacques.shop_api.dtos.UserDetailsProjection;
+import me.essejacques.shop_api.dtos.UserDto;
 import me.essejacques.shop_api.entity.User;
-import me.essejacques.shop_api.response.JwtAuthResponse;
-import me.essejacques.shop_api.dtos.LoginDto;
+import me.essejacques.shop_api.dtos.JwtAuthResponse;
+import me.essejacques.shop_api.requests.LoginRequest;
 import me.essejacques.shop_api.services.interfaces.AuthService;
 import me.essejacques.shop_api.services.interfaces.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -30,32 +29,24 @@ import java.util.Optional;
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;
-    private final JwtService jwtService;
+    private final ModelMapper modelMapper;
+
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@Valid @RequestBody LoginDto loginDto) {
-        Optional<UserDetailsProjection> user = userService.findUserProjectedByEmail(loginDto.getUsernameOrEmail());
-        log.info("User: {}", user);
-        String token = authService.login(loginDto);
-        log.info("Token: {}", token);
+    public ResponseEntity<JwtAuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        String token = authService.login(loginRequest);
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setAccessToken(token);
-
-        user.ifPresent(jwtAuthResponse::setUser);
+        User user = userService.findUserProjectedByEmail(loginRequest.usernameOrEmail()).orElseThrow();
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        jwtAuthResponse.setUser(userDto);
         return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
-    }
-
-    @GetMapping("/user")
-    public Optional<User> userDetails(HttpServletRequest request) {
-        String token = jwtService.getTokenFormRequest(request);
-        String username = jwtService.getUsername(token);
-        return userService.findUserByEmail(username);
     }
 
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<UserDetailsProjection> getAuthUser() {
+    public ResponseEntity<UserDto> getAuthUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = "";
         if (principal instanceof UserDetails) {
@@ -63,8 +54,11 @@ public class AuthController {
         } else {
             username = principal.toString();
         }
-        Optional<UserDetailsProjection> user = userService.findUserProjectedByEmail(username);
-        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        User user = userService.findUserProjectedByEmail(username).orElseThrow(
+                () -> new RuntimeException( "User not found" )
+        );
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
 }

@@ -1,6 +1,5 @@
 package me.essejacques.shop_api.repositories;
 
-import me.essejacques.shop_api.dtos.DebtDetailsProjection;
 import me.essejacques.shop_api.entity.Client;
 import me.essejacques.shop_api.entity.Debt;
 import me.essejacques.shop_api.entity.User;
@@ -11,8 +10,6 @@ import java.util.List;
 
 @Repository
 public interface DebtRepository extends JpaRepository<Debt, Long> {
-    // Lister les dettes non soldées d'un client
-    List<Debt> findByClientAndPaymentsIsNull(Client client);
-    List<Debt> findByClient(Client client);
-    List<DebtDetailsProjection> findAllProjectedByShopper(User shopper);
+    List<Debt> findAllByClient_Id(Long client);
+    List<Debt> findAllByShopper_Id(Long user);
 }

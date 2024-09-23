@@ -5,6 +5,7 @@ import '../model/client_model.dart';
 
 
 class ClientProvider  {
+
   final AppHttpClient httpClient;
 
   ClientProvider({required this.httpClient});
