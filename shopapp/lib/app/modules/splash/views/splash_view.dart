@@ -3,36 +3,40 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shopapp/app/modules/auth/controllers/auth_controller.dart';
+import 'package:shopapp/app/modules/splash/controllers/splash_controller.dart';
 import 'package:shopapp/app/themes/theme_colors.dart';
 
 import '../../../routes/app_pages.dart';
-import '../../home/views/home_view.dart';
-import 'login_view.dart';
+import '../../auth/controllers/auth_controller.dart';
 
-class SplashView extends GetView<AuthController> {
-  @override
-  AuthController get controller => Get.find<AuthController>();
+
+class SplashView extends GetView<SplashController> {
 
   const SplashView({super.key});
+
+  @override
+  SplashController get controller => Get.find();
+
+  AuthController get authController => Get.find();
+
+
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: Column(
         children: [Expanded(child: Lottie.asset("assets/lotties/splash.json"))],
       ),
-      duration: 3000,
+      duration: 2000,
       backgroundColor: ThemeColor.primaryBlue,
       splashIconSize: 200,
       nextScreen:  Container(
         color: ThemeColor.primaryBlue,
         width: double.infinity,
         height: double.infinity,
-        child: const Center(
+        child:  const Center(
           child: CircularProgressIndicator(),
         ),
       ),
-      nextRoute: Routes.HOME,
     );
   }
 }

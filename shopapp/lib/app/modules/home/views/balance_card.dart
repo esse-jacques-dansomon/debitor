@@ -14,7 +14,7 @@ class BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 130,
+      top: 50,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Container(
         padding: const EdgeInsets.all(20),
@@ -71,7 +71,19 @@ class BalanceCard extends StatelessWidget {
                     onTap: () {
                       Get.toNamed(Routes.CLIENTS);
                     }),
-                const SizedBox(width: 50),
+
+                TextIcon(
+                    text: 'Paiements',
+                    icon: Icons.payments_rounded,
+                    onTap: () {
+                      Get.toNamed(Routes.CLIENTS);
+                    }),
+
+                SizedBox(
+                  width: 10,
+                )
+                  //width: 100,
+
               ],
             )
           ],

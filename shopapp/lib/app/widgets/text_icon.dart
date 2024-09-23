@@ -16,14 +16,14 @@ class TextIcon extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            width: 35,
-              height: 35,
+            width: 40,
+              height: 40,
               child: CircleAvatar(
                 radius: 30.0,
                   backgroundColor: ThemeColor.primaryBlue,
-                  child: Icon(icon, color: ThemeColor.white, size: 20))),
-          const SizedBox(width: 20),
-          Text(text, style: const TextStyle(color: ThemeColor.primaryBlack, fontSize: 13, fontWeight: FontWeight.normal))
+                  child: Icon(icon, color: ThemeColor.white, size: 25))),
+          const SizedBox(width: 10,),
+          Text(text, style: const TextStyle(color: ThemeColor.primaryBlack, fontSize: 15, fontWeight: FontWeight.w400))
         ],
       ),
     );

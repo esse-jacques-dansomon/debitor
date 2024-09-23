@@ -14,10 +14,9 @@ class ClientsController extends GetxController {
   @override
   onInit()  {
     super.onInit();
-    getClients();
   }
 
-  void getClients() async {
+  Future<void> getClients() async {
     var allClients = await clientProvider.getClients();
     clients.addAll(allClients);
     filterClients.addAll(allClients);

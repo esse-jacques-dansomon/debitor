@@ -9,6 +9,10 @@ import 'package:shopapp/app/utils/secure_storage.dart';
 
 import '../data/provider/client_provider.dart';
 import '../modules/clients/controllers/clients_controller.dart';
+import '../modules/home/controllers/home_controller.dart';
+import '../modules/splash/controllers/splash_controller.dart';
+import '../services/network_status_service.dart';
+
 
 class DependencyInjection {
   static Future<void> init() async {
@@ -28,7 +32,7 @@ class DependencyInjection {
     Get.put(ClientProvider(httpClient: Get.find()), permanent: true);
 
     //services
-    // Get.put<NetworkStatusService>(NetworkStatusService(), permanent: true);
+    //  Get.put<NetworkStatusService>(NetworkStatusService(), permanent: true);
 
     //controllers
     Get.put<AuthController>(
@@ -36,6 +40,10 @@ class DependencyInjection {
         permanent: true);
     Get.put<ClientsController>(ClientsController(clientProvider: Get.find()),
         permanent: true);
-    // Get.put<HomeController>(HomeController(debtProvider: Get.find(), authController: Get.find()), permanent: true);
+    Get.put<HomeController>(HomeController(debtProvider: Get.find(),
+        authController: Get.find()), permanent: true);
+    Get.put<SplashController>(SplashController(homeController: Get.find(), clientsController: Get.find()), permanent: true);
+
+
   }
 }

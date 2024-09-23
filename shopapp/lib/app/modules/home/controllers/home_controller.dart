@@ -13,10 +13,10 @@ class HomeController extends GetxController {
   @override
   onInit()  {
     super.onInit();
-    getShopperDebts();
+   // getShopperDebts();
   }
 
-  void getShopperDebts() async {
+  Future<void> getShopperDebts() async {
      var user = authController.user.value;
      if(user == null){
        return;

@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
+import 'package:shopapp/app/modules/splash/bindings/splash_binding.dart';
+import 'package:shopapp/app/modules/splash/views/splash_view.dart';
 
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/login_view.dart';
-import '../modules/auth/views/splash_view.dart';
 import '../modules/clients/bindings/clients_binding.dart';
 import '../modules/clients/views/clients_view.dart';
 import '../modules/debit/bindings/debit_binding.dart';
@@ -28,7 +29,11 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(name: _Paths.SPLASH, page: () => const SplashView()),
+    GetPage(
+        name: _Paths.SPLASH,
+        page: () => const SplashView(),
+        binding: SplashBinding()
+    ),
     GetPage(
       name: _Paths.START,
       page: () => const StartView(),
@@ -73,6 +78,6 @@ class AppPages {
       name: _Paths.DEBT_DETAILS,
       page: () => const DebtDetailsView(),
       binding: DebtDetailsBinding(),
-    )
+    ),
   ];
 }

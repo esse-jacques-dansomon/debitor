@@ -23,7 +23,7 @@ class AuthController extends GetxController {
   var user = Rxn<User>();
 
   @override
-  onInit() async {
+ void onInit() async {
     super.onInit();
     await loadUserFromStorage();
   }
@@ -31,22 +31,19 @@ class AuthController extends GetxController {
   // Charger l'utilisateur depuis le stockage sécurisé au démarrage
   Future<void> loadUserFromStorage() async {
     String? token = await secureStorage.getToken();
-    print("token $token");
     if (token != null) {
       try {
         // Supposez que votre API a un endpoint pour obtenir les informations de l'utilisateur
         User fetchedUser = await loginProvider.getUser();
         user.value = fetchedUser;
         isLoginSuccess.value = true;
-        //wait 3 sec
-        //Get.offAllNamed(Routes.HOME);
       } catch (e) {
         await logout();
       }
     } else {
       user.value = null;
       isLoginSuccess.value = false;
-      //Get.offAllNamed(Routes.LOGIN);
+
     }
   }
 
@@ -90,5 +87,17 @@ class AuthController extends GetxController {
 
   void togglePasswordVisibility() {
     isPasswordHidden.value = !isPasswordHidden.value;
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    secureStorage.deleteAll();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    print("AuthController ready");
   }
 }
