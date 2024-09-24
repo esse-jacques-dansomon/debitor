@@ -63,7 +63,7 @@ class BalanceCard extends StatelessWidget {
                     text: 'Archives',
                     icon: Icons.arrow_forward,
                     onTap: () {
-                      Get.toNamed(Routes.DEBIT);
+                      Get.toNamed(Routes.ARCHIVES);
                     }),
                 TextIcon(
                     text: 'Clients',
@@ -79,9 +79,7 @@ class BalanceCard extends StatelessWidget {
                       Get.toNamed(Routes.CLIENTS);
                     }),
 
-                SizedBox(
-                  width: 10,
-                )
+
                   //width: 100,
 
               ],
