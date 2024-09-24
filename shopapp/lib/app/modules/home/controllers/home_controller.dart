@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import '../../../data/model/debt_model.dart';
-import '../../../data/provider/debt_provider.dart';
+import '../../../data/repository/debt_repository.dart';
 import '../../auth/controllers/auth_controller.dart';
 
 class HomeController extends GetxController {
-  final DebtProvider debtProvider;
+  final DebtRepository debtProvider;
   final AuthController authController;
   HomeController({required this.debtProvider, required this.authController});
 

@@ -6,13 +6,13 @@ import 'package:shopapp/app/data/model/auth_response_model.dart';
 import 'package:shopapp/app/data/model/user_model.dart';
 import 'package:shopapp/app/utils/constants.dart';
 
-import '../../utils/app_http_client.dart';
+import '../provider/app_http_client.dart';
 import '../model/login_model.dart';
 import '../model/register_model.dart';
 
-class LoginProvider  {
+class LoginRepository  {
   final AppHttpClient httpClient;
-  LoginProvider({required this.httpClient});
+  LoginRepository({required this.httpClient});
 
 
   Future<AuthResponse> login(String email, String password) async {
@@ -52,7 +52,7 @@ class LoginProvider  {
     final response = await httpClient.post('/users');
 
     if (response.statusCode == 200) {
-     // Get.delete<LoginProvider>();
+     // Get.delete<LoginRepository>();
     } else {
       throw Exception('Failed to logout ${response.body}');
     }

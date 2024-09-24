@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:shopapp/app/routes/app_pages.dart';
 
 import '../../../data/model/user_model.dart';
-import '../../../data/provider/login_provider.dart';
+import '../../../data/repository/login_repository.dart';
 import '../../../utils/secure_storage.dart';
 
 class AuthController extends GetxController {
-  final LoginProvider loginProvider;
+  final LoginRepository loginProvider;
   final SecureStorage secureStorage;
   AuthController({required this.loginProvider, required this.secureStorage});
 
@@ -20,6 +20,7 @@ class AuthController extends GetxController {
 
   var isLoading = false.obs;
   var isLoginSuccess = false.obs;
+  var hasSeenWelcome = false.obs;
   var user = Rxn<User>();
 
   @override
@@ -37,6 +38,7 @@ class AuthController extends GetxController {
         User fetchedUser = await loginProvider.getUser();
         user.value = fetchedUser;
         isLoginSuccess.value = true;
+        hasSeenWelcome.value = await secureStorage.getHasSeenWelcome() ?? false;
       } catch (e) {
         await logout();
       }
@@ -80,9 +82,9 @@ class AuthController extends GetxController {
     await secureStorage.deleteAll();
     user.value = null;
     isLoginSuccess.value = false;
+    hasSeenWelcome.value = false;
     // Naviguer vers la page de connexion
     Get.offAllNamed(Routes.LOGIN);
-    Get.snackbar('Succès', 'Déconnexion réussie');
   }
 
   void togglePasswordVisibility() {
@@ -92,12 +94,14 @@ class AuthController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    secureStorage.deleteAll();
+    // secureStorage.deleteAll();
+    emailController.clear();
+    passwordController.clear();
+    formKey.currentState?.reset();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-    print("AuthController ready");
+  void persistHasSeenWelcome(bool bool) {
+    secureStorage.persistHasSeenWelcome(bool);
+    hasSeenWelcome.value = bool;
   }
 }

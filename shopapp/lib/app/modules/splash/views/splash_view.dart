@@ -26,7 +26,7 @@ class SplashView extends GetView<SplashController> {
       splash: Column(
         children: [Expanded(child: Lottie.asset("assets/lotties/splash.json"))],
       ),
-      duration: 2000,
+      duration: 4000,
       backgroundColor: ThemeColor.primaryBlue,
       splashIconSize: 200,
       nextScreen:  Container(
@@ -37,6 +37,7 @@ class SplashView extends GetView<SplashController> {
           child: CircularProgressIndicator(),
         ),
       ),
+      nextRoute: Routes.LOADER,
     );
   }
 }

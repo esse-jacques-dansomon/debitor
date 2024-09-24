@@ -19,9 +19,10 @@ class LoginView extends GetView<AuthController> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.only(top: 40, bottom: 20, left: 20, right: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               height: 300,
@@ -35,7 +36,6 @@ class LoginView extends GetView<AuthController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("Connexion",
-                    textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 25,
                         color: ThemeColor.primaryBlack,
@@ -47,82 +47,85 @@ class LoginView extends GetView<AuthController> {
               ],
             ),
             const SizedBox(
-              height: 40,
+              height: 10,
             ),
             Form(
                 key: controller.formKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 45,
+                    // Email Field
+                    const Text(
+                      'Email',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                       child: TextFormField(
                         controller: controller.emailController,
                         keyboardType: TextInputType.emailAddress,
+                        cursorColor: Colors.black,
                         decoration: InputDecoration(
-                          labelText: 'Email',
                           hintText: 'Enter your email',
-                          hintStyle:
-                              const TextStyle(color: ThemeColor.primaryBlack),
-                          suffixIcon: const Icon(Icons.email),
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          suffixIcon: const Icon(Icons.email, color: Colors.grey),
+                          filled: true,
+                          fillColor: Colors.grey.shade100,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 15,
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide.none,
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide:
-                                const BorderSide(color: ThemeColor.primaryBlue),
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: const BorderSide(color: ThemeColor.primaryBlue, width: 2),
                           ),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                         ),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter an email';
-                          } else if (!RegExp(
-                                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                              .hasMatch(value)) {
+                          } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
                             return 'Please enter a valid email';
                           }
                           return null;
                         },
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
+                    const SizedBox(height: 20),
+
+                    // Password Field
+                    const Text(
+                      'Password',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    Obx(
-                      () => SizedBox(
-                        width: double.infinity,
-                        height: 45,
-                        child: TextFormField(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                      child: Obx(
+                            () => TextFormField(
                           controller: controller.passwordController,
                           obscureText: controller.isPasswordHidden.value,
-                          decoration: InputDecoration(
-                            labelText: 'Password',
+                              cursorColor: Colors.black,
+
+                              decoration: InputDecoration(
                             hintText: 'Enter your password',
                             suffixIcon: IconButton(
                               icon: Icon(
-                                controller.isPasswordHidden.value
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
+                                controller.isPasswordHidden.value ? Icons.visibility_off : Icons.visibility,
+                                color: Colors.grey,
                               ),
                               onPressed: controller.togglePasswordVisibility,
                             ),
+                            filled: true,
+                            fillColor: Colors.grey.shade100,
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(0),
+                              borderSide: BorderSide.none,
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(
-                                  color: ThemeColor.primaryBlue),
+                              borderRadius: BorderRadius.circular(0),
+                              borderSide: const BorderSide(color: ThemeColor.primaryBlue, width: 2),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 20),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -134,9 +137,6 @@ class LoginView extends GetView<AuthController> {
                           },
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
                     ),
 
                     // Bouton de Connexion
@@ -172,7 +172,7 @@ class LoginView extends GetView<AuthController> {
                               : const Center(
                                   child: Text(
                                     'Se connecter',
-                                    style: TextStyle(fontSize: 14),
+                                    style: TextStyle(fontSize: 14, ),
                                   ),
                                 ),
                         ),
@@ -180,32 +180,34 @@ class LoginView extends GetView<AuthController> {
                     ),
                   ],
                 )),
+            const Spacer(),
             Container(
-              padding: const EdgeInsets.only(bottom: 30, top: 20),
+              padding: const EdgeInsets.only(bottom: 20, top: 20),
               width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Pas encore inscrit ?',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  TextButton(
-                    child: const Text(
+              child: TextButton(
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+
+                  children: [
+                    Text(
+                      'Pas encore inscrit ?',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
                       'Créer un compte',
                       style: TextStyle(
                           color: ThemeColor.primaryBlack,
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                     ),
-                    onPressed: () {
-                      Get.toNamed(Routes.REGISTER);
-                    },
-                  ),
-                ],
+                  ],
+                ),
+                onPressed: () {
+                  Get.toNamed(Routes.REGISTER);
+                },
               ),
             )
           ],

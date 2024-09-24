@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shopapp/app/data/provider/login_provider.dart';
+import 'package:shopapp/app/data/repository/login_repository.dart';
 
 import '../../../routes/app_pages.dart';
 import '../../../utils/secure_storage.dart';
 
 class RegisterController extends GetxController {
-  final LoginProvider loginProvider;
+  final LoginRepository loginProvider;
   final SecureStorage secureStorage;
   RegisterController( {required this.loginProvider, required this.secureStorage});
 

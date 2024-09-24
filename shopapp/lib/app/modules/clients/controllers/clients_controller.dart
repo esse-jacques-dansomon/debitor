@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
 import 'package:shopapp/app/data/model/client_model.dart';
 
-import '../../../data/provider/client_provider.dart';
+import '../../../data/repository/client_repository.dart';
+
 
 class ClientsController extends GetxController {
-  final ClientProvider clientProvider;
-  ClientsController({required this.clientProvider});
+  final ClientRepository clientRepository;
+  ClientsController({required this.clientRepository});
 
   final clients = RxList<Client>();
   final filterClients = RxList<Client>();
@@ -17,7 +18,7 @@ class ClientsController extends GetxController {
   }
 
   Future<void> getClients() async {
-    var allClients = await clientProvider.getClients();
+    var allClients = await clientRepository.getClients();
     clients.addAll(allClients);
     filterClients.addAll(allClients);
   }

@@ -1,23 +1,21 @@
 import 'dart:convert';
 
-import '../../utils/app_http_client.dart';
+
+import '../provider/app_http_client.dart';
 import '../model/client_model.dart';
 
-
-class ClientProvider  {
-
+class ClientRepository {
   final AppHttpClient httpClient;
 
-  ClientProvider({required this.httpClient});
+  ClientRepository({required this.httpClient});
 
   Future<List<Client>> getClients() async {
     final response = await httpClient.get('/clients');
     if (response.statusCode == 200) {
-      return List<Client>.from(jsonDecode(response.body).map((x) => Client.fromJson(x)));
+      return List<Client>.from(
+          jsonDecode(response.body).map((x) => Client.fromJson(x)));
     } else {
       throw Exception('Failed to get clients ${response.body}');
     }
   }
-
-
 }
