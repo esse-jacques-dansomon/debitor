@@ -14,6 +14,7 @@ abstract class Routes {
   static const DEBIT = _Paths.DEBIT;
   static const DEBT_DETAILS = _Paths.DEBT_DETAILS;
   static const LOADER = _Paths.LOADER;
+  static const ARCHIVES = _Paths.ARCHIVES;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const DEBIT = '/debit';
   static const DEBT_DETAILS = '/debt-details';
   static const LOADER = '/loader';
+  static const ARCHIVES = '/archives';
 }
