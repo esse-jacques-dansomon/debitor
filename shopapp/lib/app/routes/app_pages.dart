@@ -1,7 +1,10 @@
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopapp/app/modules/splash/bindings/splash_binding.dart';
 import 'package:shopapp/app/modules/splash/views/splash_view.dart';
 
+import '../data/middlewares/auth_middleware.dart';
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/login_view.dart';
 import '../modules/clients/bindings/clients_binding.dart';
@@ -20,6 +23,7 @@ import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/start/bindings/start_binding.dart';
 import '../modules/start/views/start_view.dart';
+import '../themes/theme_colors.dart';
 
 part 'app_routes.dart';
 
@@ -29,6 +33,18 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
+    GetPage(
+        name: _Paths.LOADER,
+        page: () =>  Container(
+          color: ThemeColor.primaryBlue,
+          width: double.infinity,
+          height: double.infinity,
+          child:  const Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+        middlewares: [RouteWelcomeMiddleware()],
+    ),
     GetPage(
         name: _Paths.SPLASH,
         page: () => const SplashView(),

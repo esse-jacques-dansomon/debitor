@@ -11,6 +11,7 @@ class SecureStorage {
 
   static const _tokenKey = tokenKey;
   static const _user = userKey;
+  static const hasSeenWelcomeKey = hasSeenWelcomeKeyKey;
 
   Future<bool> hasToken() async {
     var value = await storage.read(key: _tokenKey);
@@ -44,5 +45,18 @@ class SecureStorage {
   void persistUserAndToken(AuthResponse authResponse) {
     storage.write(key: _tokenKey, value: authResponse.accessToken);
     storage.write(key: _user, value: jsonEncode(authResponse.user));
+  }
+
+  void persistHasSeenWelcome(bool bool) {
+    storage.write(key: hasSeenWelcomeKey, value: bool.toString());
+  }
+
+
+  Future<bool?> getHasSeenWelcome() async {
+    var value = await storage.read(key: hasSeenWelcomeKey);
+    if (value == 'true') {
+      return true;
+    }
+    return false;
   }
 }
