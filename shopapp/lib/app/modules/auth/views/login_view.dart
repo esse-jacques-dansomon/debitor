@@ -140,10 +140,12 @@ class LoginView extends GetView<AuthController> {
                     ),
 
                     // Bouton de Connexion
+                    SizedBox(
+                      height: 20,),
                     Obx(
                       () => SizedBox(
                         width: double.infinity,
-                        height: 45,
+                        height: 50,
                         child: ElevatedButton(
                           onPressed: controller.isLoading.value
                               ? null
@@ -161,7 +163,7 @@ class LoginView extends GetView<AuthController> {
                             shape:
                                 WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(0),
                               ),
                             ),
                           ),
