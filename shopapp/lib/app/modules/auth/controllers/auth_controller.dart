@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:shopapp/app/routes/app_pages.dart';
 
 import '../../../data/model/user_model.dart';
-import '../../../data/provider/login_provider.dart';
+import '../../../data/repository/login_repository.dart';
 import '../../../utils/secure_storage.dart';
 
 class AuthController extends GetxController {
-  final LoginProvider loginProvider;
+  final LoginRepository loginProvider;
   final SecureStorage secureStorage;
   AuthController({required this.loginProvider, required this.secureStorage});
 

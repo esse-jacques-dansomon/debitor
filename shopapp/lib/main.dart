@@ -16,7 +16,6 @@ void main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-
   //screen rotation disabled
   runApp(
     GetMaterialApp(
@@ -28,8 +27,4 @@ void main() async {
       initialBinding: AuthBinding(),
     ),
   );
-
-
-
-
 }
