@@ -1,84 +1,72 @@
 package me.essejacques.shop_api.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import me.essejacques.shop_api.dtos.DebtDetailsProjection;
-import me.essejacques.shop_api.entity.Client;
+import lombok.RequiredArgsConstructor;
+import me.essejacques.shop_api.controllers.interfaces.IDebtController;
 import me.essejacques.shop_api.entity.Debt;
-import me.essejacques.shop_api.entity.User;
-import me.essejacques.shop_api.services.interfaces.ClientService;
+import me.essejacques.shop_api.dtos.DebtDetailsDto;
 import me.essejacques.shop_api.services.interfaces.DebtService;
-import me.essejacques.shop_api.services.interfaces.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/debts")
+@RequiredArgsConstructor
 @Tag(name = "Debts", description = "Debts API")
-public class DebtController {
-
+public class DebtController implements IDebtController {
     private final DebtService debtService;
-    private final ClientService clientService;
-    private final UserService userService;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    public DebtController(DebtService debtService, ClientService clientService, UserService userService) {
-        this.debtService = debtService;
-        this.clientService = clientService;
-        this.userService = userService;
-    }
 
+    @Override
     @PostMapping
-    public ResponseEntity<Debt> createDebt(@RequestBody Debt debt) {
+    public ResponseEntity<DebtDetailsDto> createDebt(@RequestBody Debt debt) {
         Debt created = debtService.createDebt(debt);
-        return ResponseEntity.ok(created);
+        return ResponseEntity.ok(modelMapper.map(created, DebtDetailsDto.class));
     }
 
+    @Override
     @PutMapping("/{id}")
-    public ResponseEntity<Debt> updateDebt(@PathVariable Long id, @RequestBody Debt debt) {
+    public ResponseEntity<DebtDetailsDto> updateDebt(@PathVariable Long id, @RequestBody Debt debt) {
         Debt updated = debtService.updateDebt(id, debt);
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(modelMapper.map(updated, DebtDetailsDto.class));
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDebt(@PathVariable Long id) {
         debtService.deleteDebt(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @GetMapping
-    public ResponseEntity<List<Debt>> getAllDebts() {
+    public ResponseEntity<List<DebtDetailsDto>> getAllDebts() {
         List<Debt> debts = debtService.getAllDebts();
-        return ResponseEntity.ok(debts);
+        return ResponseEntity.ok(debts.stream().map((element) -> modelMapper.map(element, DebtDetailsDto.class)).collect(Collectors.toList()));
     }
 
+    @Override
     @GetMapping("/client/{clientId}")
-    public ResponseEntity<List<Debt>> getDebtsByClient(@PathVariable Long clientId) {
-        Optional<Client> clientOpt = clientService.getClientById(clientId);
-        if (clientOpt.isPresent()) {
-            List<Debt> debts = debtService.getDebtsByClient(clientOpt.get());
-            return ResponseEntity.ok(debts);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<DebtDetailsDto>> getDebtsByClient(@PathVariable Long clientId) {
+        List<Debt> debts = debtService.getDebtsByClient(clientId);
+        return ResponseEntity.ok(debts.stream().map((element) -> modelMapper.map(element, DebtDetailsDto.class)).collect(Collectors.toList()));
     }
 
+    @Override
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<DebtDetailsProjection>> getDebtsByShoper(@PathVariable Long userId) {
-        Optional<User> userOptional = userService.findUserById(userId);
-        if (userOptional.isPresent()) {
-            List<DebtDetailsProjection> debts = debtService.getDebtsByShoper(userOptional.get());
-            return ResponseEntity.ok(debts);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<DebtDetailsDto>> getDebtsByShoper(@PathVariable Long userId) {
+        List<Debt> debts = debtService.getDebtsByShoper(userId);
+        return ResponseEntity.ok(debts.stream().map((element) -> modelMapper.map(element, DebtDetailsDto.class)).collect(Collectors.toList()));
     }
 
+    @Override
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Debt>> getDebtById(@PathVariable Long id) {
-        Optional<Debt> debt = debtService.getDebtById(id);
-        return ResponseEntity.ok(debt);
+    public ResponseEntity<DebtDetailsDto> getDebtById(@PathVariable Long id) {
+        Debt debt = debtService.getDebtById(id).orElseThrow( () -> new RuntimeException("Could not find debt with id: " + id));
+        return ResponseEntity.ok(modelMapper.map(debt, DebtDetailsDto.class));
     }
 }

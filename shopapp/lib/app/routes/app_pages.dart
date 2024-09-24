@@ -1,12 +1,15 @@
 import 'package:get/get.dart';
+import 'package:shopapp/app/modules/splash/bindings/splash_binding.dart';
+import 'package:shopapp/app/modules/splash/views/splash_view.dart';
 
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/login_view.dart';
-import '../modules/auth/views/splash_view.dart';
 import '../modules/clients/bindings/clients_binding.dart';
 import '../modules/clients/views/clients_view.dart';
 import '../modules/debit/bindings/debit_binding.dart';
 import '../modules/debit/views/debit_view.dart';
+import '../modules/debt-details/bindings/debt_details_binding.dart';
+import '../modules/debt-details/views/debt_details_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/payment/bindings/payment_binding.dart';
@@ -26,7 +29,11 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(name: _Paths.SPLASH, page: () => const SplashView()),
+    GetPage(
+        name: _Paths.SPLASH,
+        page: () => const SplashView(),
+        binding: SplashBinding()
+    ),
     GetPage(
       name: _Paths.START,
       page: () => const StartView(),
@@ -46,7 +53,6 @@ class AppPages {
       name: _Paths.REGISTER,
       page: () => const RegisterView(),
       binding: RegisterBinding(),
-
     ),
     GetPage(
       name: _Paths.CLIENTS,
@@ -67,6 +73,11 @@ class AppPages {
       name: _Paths.DEBIT,
       page: () => const DebitView(),
       binding: DebitBinding(),
+    ),
+    GetPage(
+      name: _Paths.DEBT_DETAILS,
+      page: () => const DebtDetailsView(),
+      binding: DebtDetailsBinding(),
     ),
   ];
 }

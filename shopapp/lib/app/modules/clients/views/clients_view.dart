@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopapp/app/widgets/client_card.dart';
 
+import '../../../themes/theme_colors.dart';
 import '../controllers/clients_controller.dart';
 
 class ClientsView extends GetView<ClientsController> {
@@ -15,9 +16,11 @@ class ClientsView extends GetView<ClientsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ThemeColor.primaryBlack,
+        foregroundColor: ThemeColor.white,
         title: const Text('Clients'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Get.back(); // Retourne à la page précédente
           },

@@ -1,9 +1,14 @@
 package me.essejacques.shop_api.services.impl;
 
-import me.essejacques.shop_api.dtos.ClientProjection;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import me.essejacques.shop_api.entity.Client;
+import me.essejacques.shop_api.entity.User;
+import me.essejacques.shop_api.enums.RoleType;
 import me.essejacques.shop_api.repositories.ClientRepository;
+import me.essejacques.shop_api.requests.ClientRequest;
 import me.essejacques.shop_api.services.interfaces.ClientService;
+import me.essejacques.shop_api.services.interfaces.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,29 +17,42 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final PhotoService photoService;
 
-    @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+
+    @Override
+    public Client createClient(ClientRequest clientRequest, MultipartFile file) {
+        Client client = Client.builder()
+                .surname(clientRequest.username())
+                .address(clientRequest.address())
+                .telephone(clientRequest.telephone())
+                .build();
+        try {
+            String link = photoService.uploadPhoto(file);
+            User user = new User();
+            user.setEmail(clientRequest.email());
+            user.setRole(RoleType.ROLE_USER);
+            user.setPhoto(link);
+            client.setUser(user);
+            return clientRepository.save(client);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public Client createClient(Client client, MultipartFile file) {
-
-        return clientRepository.save(client);
-    }
-
-    @Override
-    public Client updateClient(Long id, Client clientDetails) {
+    public Client updateClient(Long id, ClientRequest clientRequest) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Client not found"));
-        client.setSurname(clientDetails.getSurname());
-        client.setTelephone(clientDetails.getTelephone());
-        client.setAddress(clientDetails.getAddress());
-        client.setUser(clientDetails.getUser());
+        client.setSurname(clientRequest.username());
+        client.setTelephone(clientRequest.telephone());
+        client.setAddress(clientRequest.address());
         return clientRepository.save(client);
     }
 
@@ -44,17 +62,17 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ClientProjection> getAllClients() {
+    public List<Client> getAllClients() {
         return clientRepository.findAllProjectedBy();
     }
 
     @Override
-    public List<ClientProjection> getClientsWithUserAccount() {
+    public List<Client> getClientsWithUserAccount() {
         return clientRepository.findAllProjectedByUserIsNotNull();
     }
 
     @Override
-    public List<ClientProjection> getClientsWithoutUserAccount() {
+    public List<Client> getClientsWithoutUserAccount() {
         return clientRepository.findAllProjectedByUserIsNull();
     }
 

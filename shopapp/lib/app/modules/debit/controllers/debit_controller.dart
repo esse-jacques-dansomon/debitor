@@ -1,23 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class DebitController extends GetxController {
   //TODO: Implement DebitController
+  final clientId = TextEditingController();
+  final amount = TextEditingController();
+  final selectedValue = Rxn<String>(null);
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void setSelectedValue(String? value) {
+    if (value == null) return;
+    selectedValue.value = value;
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

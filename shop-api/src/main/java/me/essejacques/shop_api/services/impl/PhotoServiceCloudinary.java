@@ -1,18 +1,19 @@
 package me.essejacques.shop_api.services.impl;
 
-
-
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import me.essejacques.shop_api.services.interfaces.PhotoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
 
+
+@Profile("cloudinary")
 @Service
 public class PhotoServiceCloudinary implements PhotoService {
 
@@ -43,8 +44,4 @@ public class PhotoServiceCloudinary implements PhotoService {
 
     }
 
-    @Override
-    public void deletePhoto(String photoUrl) throws Exception {
-        // Implémentation de la suppression via Cloudinary
-    }
 }

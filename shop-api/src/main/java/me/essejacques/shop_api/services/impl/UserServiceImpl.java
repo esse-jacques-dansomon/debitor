@@ -1,10 +1,10 @@
 package me.essejacques.shop_api.services.impl;
 
-import me.essejacques.shop_api.dtos.UserDetailsProjection;
 import me.essejacques.shop_api.entity.User;
 import lombok.RequiredArgsConstructor;
 import me.essejacques.shop_api.repositories.UserRepository;
 import me.essejacques.shop_api.services.interfaces.PhotoService;
+import me.essejacques.shop_api.services.interfaces.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,8 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements me.essejacques.shop_api.services.interfaces.UserService {
+public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepository;
     private final PhotoService photoService;
 
@@ -85,12 +86,12 @@ public class UserServiceImpl implements me.essejacques.shop_api.services.interfa
      * @return
      */
     @Override
-    public Page<UserDetailsProjection> getAll(PageRequest pageRequest) {
+    public Page<User> getAll(PageRequest pageRequest) {
         return this.userRepository.findPagedProjectedBy(pageRequest);
     }
 
     @Override
-    public Optional<UserDetailsProjection> findUserProjectedByEmail(String email) {
+    public Optional<User> findUserProjectedByEmail(String email) {
         return this.userRepository.findProjectedByEmail(email);
     }
 }

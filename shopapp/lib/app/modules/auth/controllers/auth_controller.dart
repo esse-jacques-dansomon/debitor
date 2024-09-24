@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:shopapp/app/routes/app_pages.dart';
@@ -11,7 +9,7 @@ import '../../../utils/secure_storage.dart';
 class AuthController extends GetxController {
   final LoginProvider loginProvider;
   final SecureStorage secureStorage;
-  AuthController( {required this.loginProvider, required this.secureStorage});
+  AuthController({required this.loginProvider, required this.secureStorage});
 
   final _formKey = GlobalKey<FormState>();
   get formKey => _formKey;
@@ -20,37 +18,32 @@ class AuthController extends GetxController {
   final passwordController = TextEditingController();
   final isPasswordHidden = true.obs;
 
-
   var isLoading = false.obs;
   var isLoginSuccess = false.obs;
   var user = Rxn<User>();
 
-
-
-
   @override
-  Future<void> onInit() async {
+ void onInit() async {
     super.onInit();
-   await loadUserFromStorage();
+    await loadUserFromStorage();
   }
+
   // Charger l'utilisateur depuis le stockage sécurisé au démarrage
   Future<void> loadUserFromStorage() async {
     String? token = await secureStorage.getToken();
-    print("token $token");
     if (token != null) {
       try {
         // Supposez que votre API a un endpoint pour obtenir les informations de l'utilisateur
         User fetchedUser = await loginProvider.getUser();
         user.value = fetchedUser;
         isLoginSuccess.value = true;
-        //wait 3 sec
-        await Future.delayed(const Duration(seconds: 6));
-        Get.offAllNamed(Routes.HOME);
       } catch (e) {
-        print("e $e");
-        // Si le token est invalide ou expiré
         await logout();
       }
+    } else {
+      user.value = null;
+      isLoginSuccess.value = false;
+
     }
   }
 
@@ -58,10 +51,10 @@ class AuthController extends GetxController {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      try{
+      try {
         isLoading.value = true;
-        final  authResponse =  await loginProvider.login(emailController.text, passwordController.text);
-        print("authResponse $authResponse");
+        final authResponse = await loginProvider.login(
+            emailController.text, passwordController.text);
         //set user to state
         user.value = authResponse.user;
         isLoading.value = false;
@@ -69,16 +62,18 @@ class AuthController extends GetxController {
         //save user and token
         secureStorage.persistUserAndToken(authResponse);
         Get.offAllNamed(Routes.HOME);
-        Get.snackbar('Success', 'Login Successful', snackPosition: SnackPosition.BOTTOM);
-      }catch(e){
-        print("e $e");
-        Get.snackbar('Error',  e.toString(),);
+        Get.snackbar('Success', 'Login Successful',
+            snackPosition: SnackPosition.BOTTOM);
+      } catch (e) {
+        Get.snackbar(
+          'Error',
+          e.toString(),
+        );
       } finally {
         isLoading.value = false;
       }
     }
   }
-
 
   // Méthode de déconnexion
   Future<void> logout() async {
@@ -94,6 +89,15 @@ class AuthController extends GetxController {
     isPasswordHidden.value = !isPasswordHidden.value;
   }
 
+  @override
+  void onClose() {
+    super.onClose();
+    secureStorage.deleteAll();
+  }
 
-
+  @override
+  void onReady() {
+    super.onReady();
+    print("AuthController ready");
+  }
 }

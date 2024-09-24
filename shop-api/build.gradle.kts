@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.2.5"
+	id("org.springframework.boot") version "3.3.3"
 	id("io.spring.dependency-management") version "1.1.6"
 }
 
@@ -29,7 +29,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-//	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-resource-server
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-resource-server
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
 	implementation("io.jsonwebtoken:jjwt-api:0.12.3")
@@ -43,6 +43,7 @@ dependencies {
 	implementation("com.cloudinary:cloudinary-http44:1.39.0")
 	// https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
 	implementation("com.google.firebase:firebase-admin:9.3.0")
+	implementation("org.modelmapper:modelmapper:3.1.0")
 	compileOnly("org.springframework.boot:spring-boot-devtools")
 
 	compileOnly("org.projectlombok:lombok")

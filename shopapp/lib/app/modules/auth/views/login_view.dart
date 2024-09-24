@@ -10,6 +10,7 @@ import '../controllers/auth_controller.dart';
 class LoginView extends GetView<AuthController> {
   const LoginView({super.key});
 
+  @override
   AuthController get controller => Get.find();
 
   @override
@@ -29,7 +30,6 @@ class LoginView extends GetView<AuthController> {
                 child: Lottie.asset("assets/lotties/login.json"),
               ),
             ),
-
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -40,11 +40,12 @@ class LoginView extends GetView<AuthController> {
                         fontSize: 25,
                         color: ThemeColor.primaryBlack,
                         fontWeight: FontWeight.w600)),
-
-                Text('Veuillez vous authentifier pour continuer', style: TextStyle(color: Colors.grey, fontSize: 16),),
+                Text(
+                  'Veuillez vous authentifier pour continuer',
+                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                ),
               ],
             ),
-
             const SizedBox(
               height: 40,
             ),
@@ -60,8 +61,8 @@ class LoginView extends GetView<AuthController> {
                         decoration: InputDecoration(
                           labelText: 'Email',
                           hintText: 'Enter your email',
-                          hintStyle: const TextStyle(color: ThemeColor.primaryBlack),
-
+                          hintStyle:
+                              const TextStyle(color: ThemeColor.primaryBlack),
                           suffixIcon: const Icon(Icons.email),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -73,16 +74,17 @@ class LoginView extends GetView<AuthController> {
                             horizontal: 20,
                             vertical: 15,
                           ),
-
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: ThemeColor.primaryBlue),
-                          ),),
-
+                            borderSide:
+                                const BorderSide(color: ThemeColor.primaryBlue),
+                          ),
+                        ),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter an email';
-                          } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                          } else if (!RegExp(
+                                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                               .hasMatch(value)) {
                             return 'Please enter a valid email';
                           }
@@ -116,8 +118,8 @@ class LoginView extends GetView<AuthController> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide:
-                                  const BorderSide(color: ThemeColor.primaryBlue),
+                              borderSide: const BorderSide(
+                                  color: ThemeColor.primaryBlue),
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 15, horizontal: 20),
@@ -137,66 +139,75 @@ class LoginView extends GetView<AuthController> {
                       height: 20,
                     ),
 
-
                     // Bouton de Connexion
                     Obx(
-                          () =>
-                        SizedBox(
-                            width: double.infinity,
-                            height: 45,
-                            child: ElevatedButton(
-                                onPressed: controller.isLoading.value ? null : () {
-                            if (controller.formKey.currentState!.validate()) {
-                              controller.login();
-                            } },
-                              style: ButtonStyle(
-                                backgroundColor:
-                                MaterialStateProperty.all(ThemeColor.primaryBlue),
-                                padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
-                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                   RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),),
-                              child: controller.isLoading.value
-                              ? const CircularProgressIndicator(
-                            color: Colors.white,
-                                                    )
-                              : const Center(
-                                child: Text(
-                                                            'Se connecter',
-                                                            style: TextStyle(fontSize: 14),
-                                                      ),
+                      () => SizedBox(
+                        width: double.infinity,
+                        height: 45,
+                        child: ElevatedButton(
+                          onPressed: controller.isLoading.value
+                              ? null
+                              : () {
+                                  if (controller.formKey.currentState!
+                                      .validate()) {
+                                    controller.login();
+                                  }
+                                },
+                          style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStateProperty.all(ThemeColor.primaryBlue),
+                            padding: WidgetStateProperty.all(
+                                const EdgeInsets.all(15)),
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                                                  ),
+                            ),
                           ),
+                          child: controller.isLoading.value
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : const Center(
+                                  child: Text(
+                                    'Se connecter',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                        ),
+                      ),
                     ),
                   ],
                 )),
-
-
-
             Container(
               padding: const EdgeInsets.only(bottom: 30, top: 20),
               width: double.infinity,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Pas encore inscrit ?', style: TextStyle(color: Colors.grey, fontSize: 16),),
+                  const Text(
+                    'Pas encore inscrit ?',
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
                   TextButton(
-                    child: const Text('Créer un compte', style: TextStyle(color: ThemeColor.primaryBlack, fontSize: 16, fontWeight: FontWeight.bold),),
-                    onPressed: (){
+                    child: const Text(
+                      'Créer un compte',
+                      style: TextStyle(
+                          color: ThemeColor.primaryBlack,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () {
                       Get.toNamed(Routes.REGISTER);
                     },
                   ),
                 ],
               ),
             )
-
-
           ],
         ),
       ),
