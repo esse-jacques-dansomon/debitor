@@ -140,7 +140,7 @@ class LoginView extends GetView<AuthController> {
                     ),
 
                     // Bouton de Connexion
-                    SizedBox(
+                    const SizedBox(
                       height: 20,),
                     Obx(
                       () => SizedBox(
